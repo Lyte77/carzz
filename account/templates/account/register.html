@@ -1,0 +1,43 @@
+{% block content %}
+ <h1>Create your account </h2>
+    <form action="" method="post">
+        {% csrf_token %}
+        <label for="">First name</label>
+        {{ form.first_name }}
+        {% if form.first_name.errors %}
+           <p>{{ error }}</p>
+           {% endif %} 
+           
+        <label for="">Last name</label>
+        {{ form.last_name }}
+        {% if form.last_name.errors %}
+           <p>{{ error }}</p>
+           {% endif %} 
+         
+        <label for="">Email</label>
+        {{ form.email }}
+        {% if form.email.errors %}
+           <p>{{ error }}</p>
+        {% endif %} 
+          
+        <p>Please tick the box if you are a car dealer</p>
+        {{ form.is_dealer }}
+        <br><br><br>
+        <label for="">Password1</label>          
+        {{ form.password1 }}
+        {% if form.password1 %}
+           <p>{{ error }}</p>
+        {% endif %} 
+         
+        <label for="">Password2</label>
+        {{ form.password2 }}
+        {% if form.password2.errors %}
+           <p>{{ error }}</p>
+        {% endif %} 
+
+        <input type="submit" value="Create account">
+                   
+    </form>
+
+
+{% endblock %}
