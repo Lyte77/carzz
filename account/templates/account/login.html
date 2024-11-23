@@ -1,0 +1,26 @@
+{% block content %}
+    <h1>Login<h2>
+        <form method='post'>
+            {% csrf_token %}
+
+            <label for="">Email</label>
+            {{ form.username }}
+            {% if form.email.errors %}
+               <p>{{ email.errors }}</p>
+            {% endif %} 
+
+            <label for="">Password</label>          
+            {{ form.password }}
+            {% if form.password %}
+               <p>{{ error }}</p>
+            {% endif %} 
+            <input type='submit' value='Login'>
+        </form>
+
+        <p>
+            <a href="{% url "password-reset" %}">
+            Forgotten your password?
+            </a>
+        </p>
+
+{% endblock %}

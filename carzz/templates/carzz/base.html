@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% if request.user.is_authenticated %}
+        <a href='{% url 'logout' %}'>Logout</a>
+    {% else %}
+        <a href='{% url 'register' %}'>Create account</        
+        <a href='{% url 'login' %}'>login</a>
+    {% endif %}        
+
+    {% if request.user.is_dealer %}
+        
+        <p>Welcome Dealer {{ user.name }}</p>
+        <p>
+            Welcome to your dashboard. You can <a href="{% url 'carzz:edit' %}">edit your
+           profile</a> 
+            </p>
+           
+        
+    {% else %}
+        <p>Welcome user</p>
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

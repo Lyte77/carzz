@@ -1,0 +1,12 @@
+{% block content %}
+<h1>Create your profile </h1>
+<form method='post' enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ profile_form.as_p }}
+   
+    <input type='submit' value='Save Profile'>
+</post>
+
+
+
+{% endblock %}

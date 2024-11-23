@@ -25,7 +25,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=100,blank=True,unique=True)
     last_name = models.CharField(max_length=100,blank=True,unique=True)
     email = models.EmailField(unique=True)
-    is_dealer = models.BooleanField(default=False)
+    is_dealer = models.BooleanField(default=False, blank=True,null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
