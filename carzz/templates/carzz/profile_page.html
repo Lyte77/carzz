@@ -1,27 +1,18 @@
 {% extends 'carzz/base.html' %}
 
 {% block content %}
+    <h1>Profile List</h1>
+    <br />
+    {% if profiles %}
+        {% for profile in profiles %}
+            Name:{{ profile.email }}
+            Name:{{ profile.name }}
+            Address: {{ profile.address }}
+            <br />
+        {% endfor %}
+    {% endif %}
 
 
-<h1>{{ request.user.name }}'s Dashboard</h1>
-<p>You can edit your dashboard here.</p>
 
-    <img src="{{ user.url }}" alt="User Profile Picture">
-
-    <p><strong>Name:</strong> {{ user.name }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>Address:</strong> {{ user.address }}</p>
-    <p><strong>Phone Number:</strong> {{ user.phone_number }}</p>
-    <p><strong>Website:</strong>   
- <a href="{{ user.website }}">{{ user.website }}</a></p>
-
-    <h2>Social Links</h2>
-    <ul>
-        <li><a href="{{ user.facebook_link }}">Facebook</a></li>
-        <li><a href="{{ user.twitter_link }}">Twitter</a></li>
-        <li><a href="{{ user.linkedin_link }}">LinkedIn</a></li>
-    </ul>
-
-    <p><strong>Joined on:</strong> {{ user.date_joined }}</p>
 
 {% endblock %}

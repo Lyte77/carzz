@@ -13,12 +13,12 @@ class DealerProfileForm(forms.ModelForm):
     ))
     class Meta:
         model = DealerProfileModel
-        fields = ['name','phone_number','email','address','website',
+        fields = ['name','phone_number','address','website',
                   'social_media','years_in_business','pic']
 
       
 class DealerEditProfileForm(forms.ModelForm):
     class Meta:
         model = DealerProfileModel
-        fields = ['name','phone_number','email','address','website',
+        fields = ['name','phone_number','address','website',
                   'social_media','years_in_business','pic']

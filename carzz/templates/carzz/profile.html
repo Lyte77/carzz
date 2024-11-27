@@ -1,0 +1,26 @@
+{% extends "carzz/base.html" %}
+
+{% block content %}
+
+    {% if has_profile %}
+        <h1>{{profile.name }}'s Profile</h1>
+        <h2>{{profile.email }}</h2>
+        <h2>{{profile.address }}</h2>
+    {% else %}
+        <p>Create your profile as it helps build trust with customers</p>
+        <a href="{% url 'carzz:setup_profile' %}">Create your profile</a>
+    {% endif %}
+
+
+   
+
+    {% if request.user.id == profile.user.id %}
+        <a href="{% url 'update_user' %}">Update Your account</a>
+        <a href="{% url 'carzz:update-profile' %}">Update Your profile</a>
+    {% endif %}
+
+    
+    
+
+
+{% endblock %}
