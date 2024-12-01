@@ -1,0 +1,25 @@
+<h1>Car Detail Page </h1>
+
+
+{{ car.make }}
+{{ car.model }}
+{{ car.year }}
+<img src="{{ car.image.url }}" alt="">
+{{ car.price }}
+{{ car.description }}
+
+{% for image in car.carimage_set.all %}
+    <div>
+        
+       <img src="{{ image.images.url }}">
+       <p>{{ image.name }}</p> 
+     </div>
+</div>
+{% endfor %}
+
+<p>
+    Dealer:
+        <a href="{% url 'carzz:dealer_profile' car.dealer_id %}">
+      {{ car.dealer.name }}</a>
+
+</p>
