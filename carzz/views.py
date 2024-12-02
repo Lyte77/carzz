@@ -27,6 +27,26 @@ def car_detail_page(request,id):
     return render(request,'carzz/car_detail.html',context)
 
 
+
+def dashboard(request, dealer_id):
+    if request.user.is_authenticated:
+        # dealer_cars = Car.objects.all()
+        # if dealer_cars:
+        #     print(dealer_cars)
+        # else:
+        #     print("You have no cars already")
+        if request.user.is_dealer:
+            dealer = request.user
+            dealer_profile =  get_object_or_404(DealerProfileModel,user_id=dealer_id)
+            dealer_cars = Car.objects.filter(dealer=dealer_profile)
+            if dealer_cars:
+                print(dealer_cars)
+            else:
+                print("No cars yet")
+            return render(request, 'carzz/dashboard.html',{'dealer':dealer,
+                                                           'dealer_profile':dealer_profile,
+                                                           'dealer_cars':dealer_cars})
+
 def dealer_profile(request,dealer_id):
    dealer_profile = get_object_or_404(DealerProfileModel,user_id=dealer_id)
   
@@ -52,14 +72,32 @@ def setup_profile(request):
         return redirect('login')  
 
 
+# def update_profile(request):
+#     if request.user.is_authenticated:
+#         current_profile = DealerProfileModel.objects.get(user=request.user)
+#         profile_form = DealerProfileForm(request.POST or None,request.FILES, instance=current_profile)
+#         if  profile_form.is_valid():
+#             profile_form.save()
+#             return redirect('carzz:dealer_profile',request.user.id )
+        
+#     return render(request, 'carzz/profile_form.html',{'profile_form':profile_form})
+
+
 def update_profile(request):
     if request.user.is_authenticated:
-        current_profile = DealerProfileModel.objects.get(user=request.user)
-        profile_form = DealerProfileForm(request.POST or None, instance=current_profile)
-        if  profile_form.is_valid():
-            profile_form.save()
-            return redirect('carzz:profile',request.user.id )
-    return render(request, 'carzz/profile_form.html',{'profile_form':profile_form})
+        if request.method == 'POST':
+            current_profile = DealerProfileModel.objects.get(user=request.user)
+
+            form = DealerEditProfileForm(data=request.POST,files=request.FILES,
+                                     instance=current_profile)
+            if form.is_valid():
+                form.save()
+                return redirect('carzz:dashboard', dealer_id=request.user.id)
+        else:
+            current_profile = DealerProfileModel.objects.get(user=request.user)
+            form = DealerEditProfileForm(instance=current_profile)
+        return render(request, 'carzz/profile_form.html',{'profile_form':form})
+
 
 def add_car(request):
     if request.user.is_authenticated:
@@ -83,3 +121,15 @@ def add_car(request):
               return render(request,'carzz/add_car.html',{'form':form,
                                                         'i_form':DealerAddImagesForm})
     return redirect('login')
+
+def edit_car(request,id):
+    if request.user.is_authenticated and request.user.is_dealer:
+           car = get_object_or_404(Car,id=id)
+           if request.method == 'POST':
+               form = DealerAddCarForm(request.POST,request.FILES,instance=car)
+               if form.is_valid():
+                   form.save()
+                   return redirect('carzz:dashboard',dealer_id=request.user.id)
+           else:
+               form = DealerAddCarForm(instance=car)
+           return render(request,'carzz/add_car.html', {'form':form})

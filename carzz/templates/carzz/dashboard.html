@@ -1,0 +1,31 @@
+<h1> Welcome to your dashboard </h2>
+    <p> Welcome {{ dealer.email }}
+
+    {% if has_profile %}
+        <p>Exists</p>
+    {% else %}
+    <a href="{% url 'carzz:add_car' %}">Add your cars</a>
+    {% endif %}
+
+    <!-- <a href="{% url 'carzz:setup_profile' %}">Create your profile</a> -->
+    <a href="{% url 'carzz:update-profile' %}">Update your profile</a>
+
+    <hr>
+    Name: {{ dealer_profile.name}}
+    Phone: {{ dealer_profile.phone_number}}
+    Address: {{ dealer_profile.address}}
+    website: {{ dealer_profile.website}}
+    Socials: {{ dealer_profile.social_media}}
+    Years in biz: {{ dealer_profile.years_in_business}}
+    Date joined: {{ dealer_profile.date_joined}}
+
+<hr>
+{% for car in dealer_cars %}
+        <li>
+            <p>{{ car.make }} <a href="{% url 'carzz:edit-car' car.id %}">
+                    edit car
+            </a></p>
+            <p>{{ car.model }}</p>
+            <p>{{ car.price }}</p>
+        </li>
+{% endfor %}

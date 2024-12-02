@@ -20,8 +20,9 @@
     
     {% if request.user.is_dealer%}
         <p>Dealer</p>
-        <a href="{% url 'carzz:setup_profile' %}">Create your profile</a>
-        <a href="{% url 'carzz:add_car' %}">Add your cars</a>
+        <a href="{% url 'carzz:dashboard' dealer_profile.user_id %}">Your dashboard</a>
+        
+        
         
     {% else %}
         <p>Regular User</p>

@@ -5,16 +5,12 @@
     <h1>Homepage</h1>
     
 
-        
-       {% for car in cars %}
-       <li>
-         <a href="{% url 'carzz:car_detail' car.id%}">
-         {{ car.make }}
-        
-         </a>
-        </li>
-        
-       {% endfor %}
+{% for car in cars %}
+    <li>
+        {{ car.make }}
+    </li>
+
+{% endfor %}  
     
 
 
