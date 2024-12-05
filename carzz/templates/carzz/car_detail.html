@@ -4,18 +4,21 @@
 {{ car.make }}
 {{ car.model }}
 {{ car.year }}
-<img src="{{ car.image.url }}" alt="">
+<img src="{{ car.thumbnail.url }}" alt=""
+ style="width: 300px; height: auto;">
 {{ car.price }}
 {{ car.description }}
 
-{% for image in car.carimage_set.all %}
-    <div>
-        
-       <img src="{{ image.images.url }}">
-       <p>{{ image.name }}</p> 
-     </div>
+<h2>Car images</h2>
+<div>
+    {% for image in images %}
+     <h3>{{ image.get_view_type_display }}</h3>
+     <img src="{{ image.image.url }}" alt="{{ image.get_view_type_display }}"
+     style="width: 300px; height: auto;">
+    {% empty %}
+        <p>No images available for this car </p>
+    {% endfor %}
 </div>
-{% endfor %}
 
 <p>
     Dealer:

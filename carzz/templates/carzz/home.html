@@ -2,12 +2,33 @@
 {% block content %}
    
     <h1>Homepage</h1>
-    <h1>Homepage</h1>
+   
     
+<div class="search">
+    <form action="{% url 'carzz:home' %}" method="get">
+        <input type="text" 
+        name="query" 
+        value="{{ query }}"
+        placeholder="Search for Cars">
+
+        <button>Search</button>
+    </form>
+    <br><br>
+</div>
+
+
+
 
 {% for car in cars %}
     <li>
-        {{ car.make }}
+        <a href="{% url 'carzz:car_detail' car.id %}">
+            {% if car.thumbnail %}
+                <img src="{{ car.thumbnail.url }}" alt="" style="width: 300px; height: auto;"> 
+            {% else %}
+                <p>No image available </p>
+            {% endif %}   
+            {{ car.make }}
+        </a>
     </li>
 
 {% endfor %}  

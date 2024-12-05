@@ -1,0 +1,13 @@
+{% block content %}
+<form method='post' enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    
+    <hr />
+   
+   
+    <button type='submit'>Add Images</button>
+    
+</form>
+
+{% endblock %}

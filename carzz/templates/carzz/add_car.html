@@ -1,10 +1,39 @@
 {% block content %}
 <form method='post' enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ car_form.as_p }}
     
     <hr />
-   
+    <h2> Car Images </h2>
+    {{ formset.management_form }}
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>View Type</th>
+                <th>Image</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for form in formset %}
+                <tr>
+                    <td>{{ form.view_type }}</td>
+                    <td>{{ form.image }}</td>
+                    <td>{{ form.DELETE }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% comment %} 
+    {% for form in formset  %}
+        <div>
+            {{ form.as_p }}
+        </div>
+    {% endfor %}
+    {% endcomment %}
    
     <button type='submit'>Add Car</button>
     

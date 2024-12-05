@@ -13,19 +13,39 @@
     <hr>
     Name: {{ dealer_profile.name}}
     Phone: {{ dealer_profile.phone_number}}
-    Address: {{ dealer_profile.address}}
-    website: {{ dealer_profile.website}}
-    Socials: {{ dealer_profile.social_media}}
-    Years in biz: {{ dealer_profile.years_in_business}}
-    Date joined: {{ dealer_profile.date_joined}}
+    Address: {{ dealer_profile.address }}
+    website: {{ dealer_profile.website }}
+    Socials: {{ dealer_profile.social_media }}
+    Years in biz: {{ dealer_profile.years_in_business }}
+    Date joined: {{ dealer_profile.date_joined }}
 
 <hr>
 {% for car in dealer_cars %}
         <li>
-            <p>{{ car.make }} <a href="{% url 'carzz:edit-car' car.id %}">
+            {% if car.thumbnail %}
+                <img src="{{ car.thumbnail.url }}" alt="" style="width: 300px; height: auto;"> 
+                <p>{{ car.make }} <a href="{% url 'carzz:edit-car' car.id %}">
                     edit car
-            </a></p>
-            <p>{{ car.model }}</p>
-            <p>{{ car.price }}</p>
+                </a></p>
+                <p>{{ car.make }} <a href="{% url 'carzz:delete_car' car.id %}">
+                    Remove
+                </a></p>
+                <p>{{ car.model }}</p>
+                <p>{{ car.price }}</p>
+                <ul>
+                    {% for image in car.images.all %}
+                    <li>
+                        <img src="{{ image.image.url }}" alt="" style="width: 300px; height: auto;">
+                        {% if image.view_type %}
+                            <p>View:{{ image.get_view_type_display }}</p>
+                        {% endif %}
+                    </li>
+                        {% empty %}
+                            <p>No image available </p>
+                        {% endfor %}
+                </ul>
+                
+            {% endif %}
         </li>
+                        
 {% endfor %}

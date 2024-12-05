@@ -37,7 +37,7 @@ class Car(models.Model):
     year = models.IntegerField(null=True)
     mileage = models.IntegerField(null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2,null=True)
-    thumbnail = models.ImageField(upload_to='car_images/',null=True)
+    thumbnail = models.ImageField(blank=True,null=True,upload_to='car_images/')
     description = models.TextField(null=True)
 
   
@@ -49,9 +49,18 @@ class Car(models.Model):
 class CarImage(models.Model):
      car = models.ForeignKey(Car,on_delete=models.CASCADE,related_name='images')
      name = models.CharField(max_length=200, blank=True,null=True)
-     images = models.ImageField(upload_to='car_images/')
+     image = models.ImageField(upload_to='car_images/')
+     view_type = models.CharField(max_length=50,choices=[
+          ('front','Front View'),
+          ('rear','Rear View'),
+          ('back','Back View'),
+          ('interior','Interior View'),
+          ('other','Other View'),
+     ],
+        default='other'
+     )
 
      def __str__(self):
-          return self.car.make
+          return f'{self.car.dealer} - {self.get_view_type_display()}'
     
 

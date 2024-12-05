@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import modelformset_factory
 from .models import DealerProfileModel, Car, CarImage
 
 class DealerProfileForm(forms.ModelForm):
@@ -32,12 +33,15 @@ class DealerAddCarForm(forms.ModelForm):
     #                         )
 
 class DealerAddImagesForm(forms.ModelForm):
-    
-    
     class Meta:
         model = CarImage
-        fields = ['name','images']
-        
-        
+        fields = [  'image','view_type']
     
     
+CarImageFormSet = modelformset_factory(
+    CarImage,
+    form=DealerAddImagesForm,
+    extra=3,
+    can_delete=True
+
+)
