@@ -18,6 +18,8 @@
     Socials: {{ dealer_profile.social_media }}
     Years in biz: {{ dealer_profile.years_in_business }}
     Date joined: {{ dealer_profile.date_joined }}
+    <p>Total Views for Your Cars: {{ total_views }}</p>
+    <p>Total Number of cars sold: {{ no_of_sold_cars }}</p>
 
 <hr>
 {% for car in dealer_cars %}
@@ -32,6 +34,7 @@
                 </a></p>
                 <p>{{ car.model }}</p>
                 <p>{{ car.price }}</p>
+                <p>Views:{{ car.views }}</p>
                 <ul>
                     {% for image in car.images.all %}
                     <li>
@@ -47,5 +50,19 @@
                 
             {% endif %}
         </li>
+        {% if not car.sold %}
+        <form method='POST'>
+            {% csrf_token %}
+            <input type="hidden" name="car_id" value="{{ car.id }}">
+            <button type="submit" name="mark_as_sold">Mark as Sold</button>
+        </form>
+        {% else %}
+            <p>Already Sold</p>
+            <form method='POST'>
+                {% csrf_token %}
+                <input type="hidden" name="car_id" value="{{ car.id }}">
+                <button type="submit" name="unmark_as_sold">Unmark as Sold</button>
+            </form>
+        {% endif %}
                         
 {% endfor %}

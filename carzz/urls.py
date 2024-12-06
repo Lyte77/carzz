@@ -7,8 +7,11 @@ urlpatterns = [
     path('', views.home_page, name='home'),
     # path('profile_list/<int:pk>/', views.profile_list, name='profile-list'),
     # path('profile/<int:pk>/',views.profile,name='profile'),
-    path('dashboard/<int:dealer_id>/', views.dashboard, name='dashboard'),
+    path('dashboard/', views.dashboard_router, name='dashboard_router'),
+    path('dealer/dashboard/<int:dealer_id>/', views.dealer_dashboard, name='dealer_dashboard'),
+    path('user/dashboard/<int:user_id>/', views.user_dashboard, name='user_dashboard'),
     path('set-profile/', views.setup_profile,name='setup_profile'),
+    path('set-user-profile/',views.setup_user_profile, name='user_profile'),
     path('update-profile/', views.update_profile,name='update-profile'),
     path('dealer_profile/<int:dealer_id>/', views.dealer_profile,name='dealer_profile'),
 

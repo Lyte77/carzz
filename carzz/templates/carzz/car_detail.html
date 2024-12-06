@@ -8,6 +8,12 @@
  style="width: 300px; height: auto;">
 {{ car.price }}
 {{ car.description }}
+ Views: {{ car.views }}
+ {% if car.sold == True %}
+    Status:Sold
+ {% else %}
+    Status:Available
+{% endif %}
 
 <h2>Car images</h2>
 <div>

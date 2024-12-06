@@ -1,6 +1,9 @@
 from django import forms
 from django.forms import modelformset_factory
-from .models import DealerProfileModel, Car, CarImage
+from .models import (DealerProfileModel, 
+                     Car,
+                    CarImage,
+                    UserProfileModel)
 
 class DealerProfileForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(
@@ -23,6 +26,11 @@ class DealerEditProfileForm(forms.ModelForm):
         model = DealerProfileModel
         fields = ['name','phone_number','address','website',
                   'social_media','years_in_business','pic']
+        
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfileModel
+        fields = ['profile_picture','phone_number','address']
         
 
 class DealerAddCarForm(forms.ModelForm):

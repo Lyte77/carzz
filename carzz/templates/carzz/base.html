@@ -18,7 +18,7 @@
         <a href='{% url 'login' %}'>login</a>
     {% endif %}    
     
-    {% if request.user.is_dealer %}
+    {% comment %} {% if request.user.is_dealer %}
         <p>Dealer {{ request.user }}</p>
         <a href="{% url 'carzz:dashboard' request.user.id %}">Your dashboard</a>
         
@@ -26,8 +26,11 @@
         
     {% else %}
         <p>Regular User</p>
+        <a href="{% url 'carzz:user_dashboard' request.user.id %}">Your dashboard</a>
+
     {% endif %}
-    
+     {% endcomment %}
+     <a href="{% url 'carzz:dashboard_router' %}">Your dashboard</a>
     
    
 

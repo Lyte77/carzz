@@ -2,10 +2,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import DealerProfileForm,DealerEditProfileForm
 from django.core.exceptions import ValidationError
 from account.models import CustomUser
-from .forms import DealerAddCarForm, DealerAddImagesForm, CarImageFormSet
+from .forms import (DealerAddCarForm,
+                     UserProfileForm,
+                     UserProfileModel,
+                     CarImageFormSet)
 from .models import Car, CarImage
-from django.db.models import Q
-from django.http import HttpResponseForbidden
+from django.db.models import Q, Sum
+from django.http import HttpResponseForbidden, HttpResponse
 
 from .models import DealerProfileModel
 # Create your views here.
@@ -30,7 +33,10 @@ def home_page(request):
 
 def car_detail_page(request,id):
     car = get_object_or_404(Car,id=id)
+    car.views += 1
+    car.save()
     images = car.images.all()
+   
     
     context = {'car':car,
                'images':images
@@ -38,9 +44,19 @@ def car_detail_page(request,id):
                }
     return render(request,'carzz/car_detail.html',context)
 
+def dashboard_router(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    if request.user.is_dealer:
+        return redirect('carzz:dealer_dashboard', dealer_id=request.user.id)
+    else:
+        return redirect('carzz:user_dashboard', user_id=request.user.id)
 
 
-def dashboard(request, dealer_id):
+
+
+def dealer_dashboard(request, dealer_id):
     if request.user.is_authenticated and request.user.is_dealer:
             if request.user.id != dealer_id:
                 return HttpResponseForbidden("You cant acces this dashboard")
@@ -48,17 +64,55 @@ def dashboard(request, dealer_id):
             
             dealer_profile =  get_object_or_404(DealerProfileModel,user_id=dealer_id)
             dealer_cars = Car.objects.filter(dealer=dealer_profile).prefetch_related('images')
-            print(dealer_cars)
+            total_views = dealer_cars.aggregate(Sum('views'))['views__sum'] or 0
+            no_of_sold_cars = dealer_cars.filter(sold=True).count()
+
+            if request.method == 'POST' and 'mark_as_sold' in request.POST:
+                car_id = request.POST.get('car_id')
+                car = get_object_or_404(Car, id=car_id,dealer=dealer_profile)
+                car.sold = True
+                car.save()
+            if request.method == 'POST' and 'unmark_as_sold' in request.POST:
+                car_id = request.POST.get('car_id')
+                car = get_object_or_404(Car, id=car_id,dealer=dealer_profile)
+                car.sold = False
+                car.save()
             
-            
-           
+            print(total_views)
             context = {'dealer':dealer,
                       'dealer_profile':dealer_profile,
                       'dealer_cars':dealer_cars,
-                    #   'dealer_images':dealer_images
+                      'total_views': total_views,
+                      'no_of_sold_cars':no_of_sold_cars,
                       }
-                       
             return render(request, 'carzz/dashboard.html',context)
+    
+
+def user_dashboard(request, user_id):
+        if not request.user.is_authenticated:
+                return redirect('login')
+
+        if request.user.id != user_id:
+                return HttpResponseForbidden("You can't access this dashboard")
+        user = request.user
+        try:
+                    user_profile =  get_object_or_404(UserProfileModel,user_id=user_id)
+                    context = {'user':user,
+                            'user_profile':user_profile}
+                    return render(request,'carzz/user_dashboard.html',context)
+        
+        except Exception as e:
+        # Return an error response if something unexpected happens
+            return HttpResponse(f"An error occurred: {str(e)}", status=500)
+                
+
+
+        
+
+            
+            
+           
+                       
 
         
 
@@ -85,8 +139,23 @@ def setup_profile(request):
     else:
         
         return redirect('login')  
+    
 
 
+def setup_user_profile(request):
+    if request.user.is_authenticated and not request.user.is_dealer:
+        if request.method == 'POST':
+            profile_form = UserProfileForm(request.POST,request.FILES)
+            if profile_form.is_valid():
+                profile = profile_form.save(commit=False)
+                profile.user = request.user
+                profile.save()
+        else:
+            profile_form = UserProfileForm()
+        return render(request, 'carzz/user_profile_form.html',{'profile_form':profile_form})
+    else:
+        return redirect('login')
+            
 
 
 
