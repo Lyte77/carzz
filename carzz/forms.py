@@ -28,7 +28,11 @@ class DealerEditProfileForm(forms.ModelForm):
                   'social_media','years_in_business','pic']
         
 class UserProfileForm(forms.ModelForm):
-    class Meta:
+     profile_picture = forms.ImageField(widget=forms.FileInput(
+
+    ))
+
+     class Meta:
         model = UserProfileModel
         fields = ['profile_picture','phone_number','address']
         

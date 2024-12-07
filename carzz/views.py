@@ -6,7 +6,7 @@ from .forms import (DealerAddCarForm,
                      UserProfileForm,
                      UserProfileModel,
                      CarImageFormSet)
-from .models import Car, CarImage
+from .models import Car, CarImage, SavedCar
 from django.db.models import Q, Sum
 from django.http import HttpResponseForbidden, HttpResponse
 
@@ -36,13 +36,13 @@ def car_detail_page(request,id):
     car.views += 1
     car.save()
     images = car.images.all()
-   
-    
     context = {'car':car,
                'images':images
-              
                }
     return render(request,'carzz/car_detail.html',context)
+   
+    
+              
 
 def dashboard_router(request):
     if not request.user.is_authenticated:
@@ -97,8 +97,10 @@ def user_dashboard(request, user_id):
         user = request.user
         try:
                     user_profile =  get_object_or_404(UserProfileModel,user_id=user_id)
+                    saved_car = SavedCar.objects.filter(user=request.user).select_related('car')
                     context = {'user':user,
-                            'user_profile':user_profile}
+                            'user_profile':user_profile,
+                            'saved_cars': [saved_car.car for saved_car in saved_car]}
                     return render(request,'carzz/user_dashboard.html',context)
         
         except Exception as e:
@@ -132,7 +134,7 @@ def setup_profile(request):
                 profile = profile_form.save(commit=False)  # Avoid unnecessary database write-through
                 profile.user = request.user
                 profile.save()
-                return redirect('carzz:dealer_profile', request.user.id)
+                return redirect('carzz:dealer_dashboard', request.user.id)
         else:
             profile_form = DealerProfileForm()
         return render(request, 'carzz/profile_form.html',{'profile_form':profile_form})
@@ -145,11 +147,13 @@ def setup_profile(request):
 def setup_user_profile(request):
     if request.user.is_authenticated and not request.user.is_dealer:
         if request.method == 'POST':
-            profile_form = UserProfileForm(request.POST,request.FILES)
+            profile_form = UserProfileForm(request.POST,files=request.FILES)
             if profile_form.is_valid():
                 profile = profile_form.save(commit=False)
                 profile.user = request.user
                 profile.save()
+                return redirect('carzz:user_dashboard', request.user.id)
+
         else:
             profile_form = UserProfileForm()
         return render(request, 'carzz/user_profile_form.html',{'profile_form':profile_form})
@@ -168,11 +172,30 @@ def update_profile(request):
                                      instance=current_profile)
             if form.is_valid():
                 form.save()
-                return redirect('carzz:dashboard', dealer_id=request.user.id)
+                return redirect('carzz:dealer_dashboard', dealer_id=request.user.id)
         else:
             current_profile = DealerProfileModel.objects.get(user=request.user)
             form = DealerEditProfileForm(instance=current_profile)
         return render(request, 'carzz/profile_form.html',{'profile_form':form})
+    
+
+def update_user_profile(request):
+     if request.user.is_authenticated:
+          if request.method == 'POST':
+               current_profile = UserProfileModel.objects.get(user=request.user)
+
+               form = UserProfileForm(data=request.POST,
+                                      files=request.FILES,
+                                      instance=current_profile)
+               if form.is_valid():
+                    form.save()
+                    return redirect('carzz:user_dashboard',
+                                    user_id=request.user.id)
+          else:
+               
+               current_profile = UserProfileModel.objects.get(user=request.user)
+               form = UserProfileForm(instance=current_profile)
+          return render(request, 'carzz/user_profile_form.html',{'form':form})
 
 
 def add_car(request):
@@ -194,7 +217,7 @@ def add_car(request):
                           car_image = form.save(commit=False)
                           car_image.car = car
                           car_image.save()
-              return redirect('carzz:dashboard',dealer_id=request.user.id)
+              return redirect('carzz:dealer_dashboard',dealer_id=request.user.id)
                
           else:
               car_form = DealerAddCarForm()
@@ -233,7 +256,7 @@ def edit_car(request,id):
                            car_image.save()
                        elif form.cleaned_data.get('DELETE'):
                            form.instance.delete()
-                   return redirect('carzz:dashboard',dealer_id=request.user.id)
+                   return redirect('carzz:dealer_dashboard',dealer_id=request.user.id)
            else:
                car_form = DealerAddCarForm(instance=car)
                formset = CarImageFormSet(queryset=CarImage.objects.filter(car=car))
@@ -244,4 +267,12 @@ def edit_car(request,id):
 def delete_car(request, id):
     car = get_object_or_404(Car,id=id)
     car.delete()
-    return redirect('carzz:dashboard',request.user.id)
+    return redirect('carzz:dealer_dashboard',request.user.id)
+
+def save_car(request,car_id):
+     car = get_object_or_404(Car, id=car_id)
+     saved_car, created = SavedCar.objects.get_or_create(user=request.user,car=car)
+
+     if not created:
+          saved_car.delete()
+     return redirect('carzz:car_detail', car_id=car_id)

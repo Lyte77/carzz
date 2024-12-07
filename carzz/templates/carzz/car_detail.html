@@ -15,6 +15,16 @@
     Status:Available
 {% endif %}
 
+
+<form method="post" action="{% url 'carzz:save_car' car.id %}">
+    {% csrf_token %}
+    {% if car in saved_cars %}
+        <button type="submit" class="btn btn-danger">Unsave</button>
+    {% else %}
+        <button type="submit" class="btn btn-primary">Save</button>
+    {% endif %}
+</form>
+
 <h2>Car images</h2>
 <div>
     {% for image in images %}

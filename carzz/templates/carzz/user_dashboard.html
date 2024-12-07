@@ -1,4 +1,18 @@
 <h1> Welcome to your dashboard </h2>
     <p> Welcome {{ user.email }}
-        <a href="{% url 'carzz:update-profile' %}">Update your profile</a>
-   
+        {% if user_profile %}
+            <a href="{% url 'carzz:update_user_profile' %}">Update your Profile</a>
+        {% else %}
+            <a href="{% url 'carzz:user_profile' %}">Create your Profile</a>
+        {% endif %}
+
+        <h2>Your Saved Cars</h2>
+            <ul>
+                {% for car in saved_cars %}
+                    <li>
+                        <a href="{% url 'carzz:car_detail' car.id %}">
+                            {{ car.title }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>

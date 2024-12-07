@@ -82,4 +82,16 @@ class UserProfileModel(models.Model):
 def create_user_profile(sender,instance,created,**kwargs):
      if created and not instance.is_dealer:
           UserProfileModel.objects.create(user=instance)
+
+
+class SavedCar(models.Model):
+     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+     car = models.ForeignKey(Car, on_delete=models.CASCADE)
+     saved_at = models.DateTimeField(auto_now_add=True)
+
+     class Meta:
+          unique_together = ('user','car')
+
+     def __str__(self):
+          return f"{self.user.first_name} saved {self.car.model}"
         

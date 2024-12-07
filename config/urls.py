@@ -17,11 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+import debug_toolbar
 
 from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('__debug__/', include(debug_toolbar.urls)),
     path('account/',include('account.urls')),
     path('carzz/', include('carzz.urls', namespace='carzz'))
 ]
@@ -31,3 +33,5 @@ if settings.DEBUG:
  settings.MEDIA_URL,
  document_root=settings.MEDIA_ROOT
  )
+
+ 
