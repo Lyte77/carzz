@@ -1,4 +1,5 @@
-<h1> Welcome to your dashboard </h2>
+{% extends "carzz/base.html" %}
+{% block content %}
     <p> Welcome {{ dealer.email }}
 
     {% if has_profile %}
@@ -66,3 +67,209 @@
         {% endif %}
                         
 {% endfor %}
+
+
+<div class="w-full px-6 py-6 mx-auto inset-4">
+    <h6 class="mb-0 font-bold capitalize text-center py-10 text-2xl">
+      Light's Dashboard
+    </h6>
+
+    <div class="flex justify-center space-x-1 gap-5">
+      <a
+        href="#"
+        class="bg-red-700 px-2 py-1 pb-2 rounded-full text-white text-center"
+        >Signup</a
+      >
+
+      <a
+        href="#"
+        class="bg-red-700 px-2 py-1 pb-2 rounded-full text-white text-center"
+        >Signup</a
+      >
+    </div>
+
+    <div class="flex flex-wrap -mx-3 mt-10">
+      <!-- card 1  -->
+      <div
+        class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4"
+      >
+        <div
+          class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border"
+        >
+          <div class="flex-auto p-4">
+            <div class="flex flex-row -mx-3">
+              <div class="flex-none w-2/3 max-w-full px-3">
+                <div>
+                  <p
+                    class="mb-0 font-sans font-semibold leading-normal text-sm"
+                  >
+                    No of your cars
+                  </p>
+                  <h5 class="mb-0 font-bold"></h5>
+                </div>
+              </div>
+              <div class="px-3 text-right basis-1/3">
+                <div
+                  class="inline-block w-12 h-12 text-center  rounded-lg bg-gradient-to-tl from-red-700 to-red-500"
+                >
+                  <p class="text-white py-2 text-2xl">20</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4"
+      >
+        <div
+          class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border"
+        >
+          <div class="flex-auto p-4">
+            <div class="flex flex-row -mx-3">
+              <div class="flex-none w-2/3 max-w-full px-3">
+                <div>
+                  <p
+                    class="mb-0 font-sans font-semibold leading-normal text-sm"
+                  >
+                    No of views
+                  </p>
+                  <h5 class="mb-0 font-bold">10</h5>
+                </div>
+              </div>
+              <div class="px-3 text-right basis-1/3">
+                <div
+                  class="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl from-red-700 to-red-500"
+                >
+                <p class="text-white py-2 text-2xl">20</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Your Cars  -->
+
+      <section class="container px-4 py-14 text-red-700 text-center mx-auto">
+        <h3 class="text-3xl uppercase">Your Cars</h3>
+        <div class="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
+          <div class="border-b mb-5 flex justify-between text-sm">
+            <div
+              class="text-red-700 flex items-center pb-2 pr-2 border-b-2 border-red-700 uppercase"
+            >
+              <a href="#" class="font-semibold inline-block">Cars</a>
+            </div>
+            <a href="#">See All</a>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+            <!-- CARD 1 -->
+            <div class="rounded overflow-hidden shadow-lg flex flex-col">
+              <a href="#"></a>
+              <div class="relative">
+                <a href="#">
+                  <img
+                    class="w-full"
+                    src="/src/images/gle.jpg"
+                    alt="Sunset in the mountains"
+                  />
+                  <div
+                    class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25"
+                  ></div>
+                </a>
+                <a href="#!">
+                  <div
+                    class="text-xs absolute top-0 right-0 bg-red-700 px-4 py-2 text-white mt-3 mr-3 hover:bg-white hover:text-red-700 transition duration-500 ease-in-out"
+                  >
+                    Available
+                  </div>
+                </a>
+              </div>
+              <div class="px-6 py-4 mb-auto">
+                <a
+                  href="#"
+                  class="font-medium text-lg inline-block hover:text-red-700 transition duration-500 ease-in-out mb-2"
+                >
+                  Mercedes Gle
+                </a>
+                <p class="text-gray-500 text-sm">
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry.
+                </p>
+              </div>
+              <div
+                class="px-6 py-3 flex flex-row items-center justify-between bg-gray-100"
+              >
+                <a
+                  href="#"
+                  class="bg-red-700 px-2 py-1 pb-2 rounded-full text-white text-center"
+                  >Update</a
+                >
+
+                <a
+                  href="#"
+                  class="bg-red-700 px-2 py-1 pb-2 rounded-full text-white text-center"
+                  >Delete</a
+                >
+              </div>
+            </div>
+            <div class="rounded overflow-hidden shadow-lg flex flex-col">
+              <a href="#"></a>
+              <div class="relative">
+                <a href="#">
+                  <img
+                    class="w-full"
+                    src="/src/images/gle.jpg"
+                    alt="Sunset in the mountains"
+                  />
+                  <div
+                    class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25"
+                  ></div>
+                </a>
+                <a href="#!">
+                  <div
+                    class="text-xs absolute top-0 right-0 bg-red-700 px-4 py-2 text-white mt-3 mr-3 hover:bg-white hover:text-red-700 transition duration-500 ease-in-out"
+                  >
+                    Available
+                  </div>
+                </a>
+              </div>
+              <div class="px-6 py-4 mb-auto">
+                <a
+                  href="#"
+                  class="font-medium text-lg inline-block hover:text-red-700 transition duration-500 ease-in-out mb-2"
+                >
+                  Mercedes Gle
+                </a>
+                <p class="text-gray-500 text-sm">
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry.
+                </p>
+              </div>
+              <div
+                class="px-6 py-3 flex flex-row items-center justify-between bg-gray-100"
+              >
+                <a
+                  href="#"
+                  class="bg-red-700 px-2 py-1 pb-2 rounded-full text-white text-center"
+                  >Update</a
+                >
+
+                <a
+                  href="#"
+                  class="bg-red-700 px-2 py-1 pb-2 rounded-full text-white text-center"
+                  >Delete</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+
+
+{% endblock content %}

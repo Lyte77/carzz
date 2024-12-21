@@ -11,7 +11,7 @@
                 {% for car in saved_cars %}
                     <li>
                         <a href="{% url 'carzz:car_detail' car.id %}">
-                            {{ car.title }}
+                            {{ car.model }}
                         </a>
                     </li>
                 {% endfor %}

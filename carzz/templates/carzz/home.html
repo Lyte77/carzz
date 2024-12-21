@@ -1,10 +1,10 @@
 {% extends "carzz/base.html" %}
+{% load static %}
 {% block content %}
    
-    <h1>Homepage</h1>
-   
+  
     
-<div class="search">
+{% comment %} <div class="search">
     <form action="{% url 'carzz:home' %}" method="get">
         <input type="text" 
         name="query" 
@@ -14,25 +14,263 @@
         <button>Search</button>
     </form>
     <br><br>
+</div> {% endcomment %}
+{% comment %} header section {% endcomment %}
+
+
+<section class="relative h-[40rem] flex justify-center items-center
+overflow-hidden ">
+    <img src="{% static '/images/background2.jpg' %}" alt="" class="absolute w-full h-full object-cover brightness-50">
+    <div class="absolute inset-0 flex flex-col items-center
+    justify-center text-center text-red-700">
+    <h1 class="text-4xl md:text-7xl lg:text-8xl font-bold
+    tracking-tight">Get your dream car here</h1>
+    <button class=" mt-7 bg-red-700 px-5 py-1 pb-2 rounded-full
+    text-white text-center ">Explore</button>
+    </div>
+</section>
+
+
+<div class="info-section container mx-auto text-center py-6 ">
+    <h2 class="text-3xl font-bold text-red-700" >WELCOME TO THE CARZZ</h2>
+    <div class=" py-6 text-center">
+      <p class="px-4 py-4 my-2  shadow-lg rounded-sm md:text-3xl">Everything you need to build an amazing dealership website
+        
+        Being developed on Visual Composer Drag and Drop Page Builder,
+        It is fully responsive on any device. Unique designs, captivating sliders, and innovative website building tools work seamlessly
+        to boost your business online.</p>
+      </div>  
+</div>
+
+<div class="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
+  <div class="border-b mb-5 flex justify-between text-sm">
+    <div class="text-red-700 flex items-center pb-2 pr-2 border-b-2 border-red-700 uppercase">
+      
+          <a href="#" class="font-semibold inline-block">Cars</a>
+        </div>
+        <a href="#">See All</a>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+        {% for car in cars %}
+        <div class="rounded overflow-hidden shadow-lg flex flex-col">
+          <a href="#"></a>
+            <div class="relative">
+              <a href="{% url 'carzz:car_detail' car.id %}">
+              <img class="w-full"
+              src="{{ car.thumbnail.url }}"
+              alt="Sunset in the mountains">
+                    <div
+                        class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25">
+                    </div>
+                </a>
+                <a href="#!">
+                  <div
+                  class="text-xs absolute top-0 right-0 bg-red-700 px-4 py-2 text-white mt-3 mr-3 hover:bg-white hover:text-red-700 transition duration-500 ease-in-out">
+                        Available
+                    </div>
+                </a>
+              </div>
+              <div class="px-6 py-4 mb-auto">
+                <a href="#"
+                class="font-medium text-lg inline-block hover:text-red-700 transition duration-500 ease-in-out  mb-2">
+                {{ car.model }}
+                    </a>
+                <p class="text-gray-500 text-sm">
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                </p>
+            </div>
+            <div class="px-6 py-3 flex flex-row items-center justify-between bg-gray-100">
+              <span href="#" class="py-1 text-xs font-regular text-gray-900 mr-1 flex flex-row items-center">
+                  <svg height="13px" width="13px" version="1.1" id="Layer_1"
+                  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                      y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;"
+                      xml:space="preserve">
+                      <g>
+                        <g>
+                          <path
+                          d="M256,0C114.837,0,0,114.837,0,256s114.837,256,256,256s256-114.837,256-256S397.163,0,256,0z M277.333,256 c0,11.797-9.536,21.333-21.333,21.333h-85.333c-11.797,0-21.333-9.536-21.333-21.333s9.536-21.333,21.333-21.333h64v-128 c0-11.797,9.536-21.333,21.333-21.333s21.333,9.536,21.333,21.333V256z">
+                              </path>
+                          </g>
+                      </g>
+                  </svg>
+                  <span class="ml-1">6 mins ago</span>
+              </span>
+              
+              <span href="#" class="py-1 text-xs font-regular text-gray-900 mr-1 flex flex-row items-center">
+                  <svg class="h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z">
+                  </path>
+                </svg>
+                <span class="ml-1">39 Comments</span>
+              </span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+</div>
+
+<!-- Testimonials -->
+<section class="container px-5 mx-auto text-center">
+  <!-- Testimonail section -->
+  <div class="mt-4 font-mono">
+<h3 class="text-3xl">Testimonials</h3>
+<div class="max-w-6xl mx-auto">
+<div class=" mx-auto">
+<div class="space-y-4 rounded-3xl py-8 px-4">
+  <div class="flex items-center ml-auto p-6 bg-red-700 shadow-md rounded-3xl max-w-md">
+    <img src='https://readymadeui.com/profile_2.webp' class="w-20 h-20 rounded-full" />
+
+    <div class="ml-4">
+      <h4 class="text-white-800 text-base font-bold">John Doe</h4>
+      <p class="text-sm text-white mt-2">Veniam proident aute magna anim excepteur et ex consectetur velit ullamco veniam minim aute sit.</p>
+    </div>
+  </div>
+  
+  <div class="flex items-center  p-6 bg-white shadow-md rounded-3xl max-w-md">
+    <img src='https://readymadeui.com/profile_2.webp' class="w-20 h-20 rounded-full ml-auto" />
+
+    <div class="ml-4">
+      <h4 class="text-gray-800 text-base font-bold">John Doe</h4>
+      <p class="text-sm text-gray-500 mt-2">Veniam proident aute magna anim excepteur et ex consectetur velit ullamco veniam minim aute sit.</p>
+    </div>
+  </div>
+
+  <div class="flex items-center ml-auto p-6 bg-red-700 shadow-md rounded-3xl max-w-md">
+    <img src='https://readymadeui.com/profile_2.webp' class="w-20 h-20 rounded-full" />
+    
+    <div class="ml-4">
+      <h4 class=" text-base font-bold">John Doe</h4>
+      <p class="text-sm text-white mt-2">Veniam proident aute magna anim excepteur et ex consectetur velit ullamco veniam minim aute sit.</p>
+    </div>
+  </div>
+
+  <div class="flex items-center p-6 bg-white shadow-md rounded-3xl max-w-md">
+    <div class="mr-4">
+      <h4 class="text-gray-800 text-base font-bold">Mark Adair</h4>
+      <p class="text-sm text-gray-500 mt-2">Veniam proident aute magna anim excepteur et ex consectetur velit ullamco veniam minim aute sit.</p>
+    </div>
+    <img src='https://readymadeui.com/profile_3.webp' class="w-20 h-20 rounded-full ml-auto" />
+  </div>
+
+  
 </div>
 
 
+</div>
+</div>
+</div>
 
 
-{% for car in cars %}
-    <li>
-        <a href="{% url 'carzz:car_detail' car.id %}">
-            {% if car.thumbnail %}
-                <img src="{{ car.thumbnail.url }}" alt="" style="width: 300px; height: auto;"> 
-            {% else %}
-                <p>No image available </p>
-            {% endif %}   
-            {{ car.make }}
-        </a>
-    </li>
+</section>
 
-{% endfor %}  
+<!-- FAQS -->
+<section class="container px-5">
+  <div class="font-sans divide-y rounded-lg max-w-4xl mx-auto px-4">
+            <div class="mb-8">
+              <h2 class="text-2xl font-bold text-red-700 ">Frequently asked questions</h2>
+            </div>
+            <div class="accordion" role="accordion">
+              <button type="button"
+                class="toggle-button w-full text-base outline-none text-left font-semibold py-6 text-red-700 flex items-center">
+                <span class="mr-4">Are there any special discounts or promotions available during the event.</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42" class="w-3 fill-current ml-auto shrink-0">
+                  <path class="plus hidden"
+                  d="M37.059 16H26V4.941C26 2.224 23.718 0 21 0s-5 2.224-5 4.941V16H4.941C2.224 16 0 18.282 0 21s2.224 5 4.941 5H16v11.059C16 39.776 18.282 42 21 42s5-2.224 5-4.941V26h11.059C39.776 26 42 23.718 42 21s-2.224-5-4.941-5z" />
+                  <path
+                  d="M37.059 16H4.941C2.224 16 0 18.282 0 21s2.224 5 4.941 5h32.118C39.776 26 42 23.718 42 21s-2.224-5-4.941-5z" />
+                </svg>
+              </button>
+              <div class="content pb-6 max-h-[1000px] overflow-hidden transition-all duration-300">
+                <p class="text-sm text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor auctor
+                  arcu,
+                  at fermentum dui. Maecenas
+                  vestibulum a turpis in lacinia. Proin aliquam turpis at erat venenatis malesuada. Sed semper, justo vitae
+                  consequat fermentum, felis diam posuere ante, sed fermentum quam justo in dui. Nulla facilisi. Nulla aliquam
+                  auctor purus, vitae dictum dolor sollicitudin vitae. Sed bibendum purus in efficitur consequat. Fusce et
+                  tincidunt arcu. Curabitur ac lacus lectus. Morbi congue facilisis sapien, a semper orci facilisis in.
+                </p>
+              </div>
+            </div>
+            <div class="accordion" role="accordion">
+              <button type="button"
+              class="toggle-button w-full text-base outline-none text-left font-semibold py-6 text-red-700  flex items-center">
+                <span class="mr-4">What are the dates and locations for the product launch events?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42" class="w-3 fill-current ml-auto shrink-0">
+                  <path class="plus"
+                  d="M37.059 16H26V4.941C26 2.224 23.718 0 21 0s-5 2.224-5 4.941V16H4.941C2.224 16 0 18.282 0 21s2.224 5 4.941 5H16v11.059C16 39.776 18.282 42 21 42s5-2.224 5-4.941V26h11.059C39.776 26 42 23.718 42 21s-2.224-5-4.941-5z" />
+                  <path
+                    d="M37.059 16H4.941C2.224 16 0 18.282 0 21s2.224 5 4.941 5h32.118C39.776 26 42 23.718 42 21s-2.224-5-4.941-5z" />
+                </svg>
+              </button>
+              <div class="content invisible max-h-0 overflow-hidden transition-all duration-300">
+                <p class="text-sm text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor auctor
+                  arcu,
+                  at fermentum dui. Maecenas ongue facilisis sapien, a semper orci facilisis in.
+                </p>
+              </div>
+            </div>
+            <div class="accordion" role="accordion">
+              <button type="button"
+                class="toggle-button w-full text-base outline-none text-left font-semibold py-6 text-red-700  flex items-center">
+                <span class="mr-4">Can I bring a guest with me to the product launch event?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42" class="w-3 fill-current ml-auto shrink-0">
+                  <path class="plus"
+                  d="M37.059 16H26V4.941C26 2.224 23.718 0 21 0s-5 2.224-5 4.941V16H4.941C2.224 16 0 18.282 0 21s2.224 5 4.941 5H16v11.059C16 39.776 18.282 42 21 42s5-2.224 5-4.941V26h11.059C39.776 26 42 23.718 42 21s-2.224-5-4.941-5z" />
+                  <path
+                  d="M37.059 16H4.941C2.224 16 0 18.282 0 21s2.224 5 4.941 5h32.118C39.776 26 42 23.718 42 21s-2.224-5-4.941-5z" />
+                </svg>
+              </button>
+              <div class="content invisible max-h-0 overflow-hidden transition-all duration-300">
+                <p class="text-sm text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor auctor
+                  arcu,
+                  at fermentum dui. Maecenas ongue facilisis sapien, a semper orci facilisis in.
+                </p>
+              </div>
+            </div>
+
+            <div class="accordion" role="accordion">
+              <button type="button"
+              class="toggle-button w-full text-base outline-none text-left font-semibold py-6 text-red-700  flex items-center">
+              <span class="mr-4">Can I bring a guest with me to the product launch event?</span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42" class="w-3 fill-current ml-auto shrink-0">
+                <path class="plus"
+                    d="M37.059 16H26V4.941C26 2.224 23.718 0 21 0s-5 2.224-5 4.941V16H4.941C2.224 16 0 18.282 0 21s2.224 5 4.941 5H16v11.059C16 39.776 18.282 42 21 42s5-2.224 5-4.941V26h11.059C39.776 26 42 23.718 42 21s-2.224-5-4.941-5z" />
+                  <path
+                  d="M37.059 16H4.941C2.224 16 0 18.282 0 21s2.224 5 4.941 5h32.118C39.776 26 42 23.718 42 21s-2.224-5-4.941-5z" />
+                </svg>
+              </button>
+              <div class="content invisible max-h-0 overflow-hidden transition-all duration-300">
+                <p class="text-sm text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor auctor
+                  arcu,
+                  at fermentum dui. Maecenas ongue facilisis sapien, a semper orci facilisis in.
+                </p>
+              </div>
+            </div>
+            
+          </div>
+        
+      </section>
+
+
+        
+              
+
     
+    
+    
+      
+      
+      
 
 
-{% endblock %}
+
+          
+          
+          
+
+
+
+{% include "carzz/includes/footer.html" %}
+  {% endblock %}

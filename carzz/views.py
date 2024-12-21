@@ -100,6 +100,7 @@ def user_dashboard(request, user_id):
                     saved_car = SavedCar.objects.filter(user=request.user).select_related('car')
                     context = {'user':user,
                             'user_profile':user_profile,
+                            'saved_car':saved_car,
                             'saved_cars': [saved_car.car for saved_car in saved_car]}
                     return render(request,'carzz/user_dashboard.html',context)
         
@@ -275,4 +276,4 @@ def save_car(request,car_id):
 
      if not created:
           saved_car.delete()
-     return redirect('carzz:car_detail', car_id=car_id)
+     return redirect('carzz:user_dashboard', user_id=request.user.id)
