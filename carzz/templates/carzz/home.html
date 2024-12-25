@@ -31,7 +31,7 @@ overflow-hidden ">
 </section>
 
 
-<div class="info-section container mx-auto text-center py-6 ">
+<div class="info-section container mx-auto text-center py-6 animate-fadeInRight">
     <h2 class="text-3xl font-bold text-red-700" >WELCOME TO THE CARZZ</h2>
     <div class=" py-6 text-center">
       <p class="px-4 py-4 my-2  shadow-lg rounded-sm md:text-3xl">Everything you need to build an amazing dealership website
@@ -57,9 +57,13 @@ overflow-hidden ">
           <a href="#"></a>
             <div class="relative">
               <a href="{% url 'carzz:car_detail' car.id %}">
-              <img class="w-full"
-              src="{{ car.thumbnail.url }}"
-              alt="Sunset in the mountains">
+                {% if car.thumbnail %}
+                  <img class="w-full"
+                  src="{{ car.thumbnail.url }}"
+                  alt="Sunset in the mountains">
+                {% else %}
+                  <p>No Image yet</p>
+                {% endif %}
                     <div
                         class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25">
                     </div>

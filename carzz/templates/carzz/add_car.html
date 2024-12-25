@@ -1,42 +1,154 @@
-{% block content %}
-<form method='post' enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ car_form.as_p }}
-    
-    <hr />
-    <h2> Car Images </h2>
-    {{ formset.management_form }}
+{% extends 'carzz/base.html' %}
+ {% block content %}
+<div class="h-full bg-gray-400 dark:bg-gray-900">
+  <div class="mx-auto">
+    <div class="flex justify-center px-6 py-12">
+      <div class="w-full xl:w-3/4 lg:w-11/12 flex">
+        <div
+          class="w-full h-auto bg-gray-400 dark:bg-gray-800 hidden lg:block lg:w-5/12 bg-cover rounded-l-lg"
+          style="background-image: url('/src/images/background2.jpg')"
+        ></div>
+        <div
+          class="w-full lg:w-7/12 bg-white dark:bg-gray-700 p-5 rounded-lg lg:rounded-l-none"
+        >
+          <h3
+            class="py-4 text-2xl text-center text-red-700 dark:text-white animate-typing overflow-hidden whitespace-nowrap md:text-4xl"
+          >
+            Add Car
+          </h3>
 
+          <form
+            method="post"
+            enctype="multipart/form-data"
+            class="px-8 pt-6 pb-8 mb-4 bg-white dark:bg-gray-800 rounded"
+          >
+            {% csrf_token %}
+            <div class="mb-4 md:flex md:justify-between">
+              <div class="mb-4 md:mr-2 md:mb-0">
+                <label
+                  class="block mb-2 text-sm font-bold text-gray-700 dark:text-white"
+                  for="firstName"
+                >
+                  Make
+                </label>
+                {{ car_form.make }}
+              </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>View Type</th>
-                <th>Image</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for form in formset %}
-                <tr>
-                    <td>{{ form.view_type }}</td>
-                    <td>{{ form.image }}</td>
-                    <td>{{ form.DELETE }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+              <div class="md:ml-2">
+                <label
+                  class="block mb-2 text-sm font-bold text-gray-700 dark:text-white"
+                  for="firstName"
+                >
+                  Model
+                </label>
+                {{ car_form.model }}
+              </div>
+            </div>
+            <div class="mb-4">
+              <label
+                class="block mb-2 text-sm font-bold text-gray-700 dark:text-white"
+                for="email"
+              >
+                Year
+              </label>
+              {{ car_form.year }}
+            </div>
+            <div class="mb-4">
+              <label
+                class="block mb-2 text-sm font-bold text-gray-700 dark:text-white"
+                for="email"
+              >
+                Mileage
+              </label>
+              {{ car_form.mileage }}
+            </div>
+            <div class="mb-4 md:mr-2 md:mb-0">
+              <label
+                class="block mb-2 text-sm font-bold text-gray-700 dark:text-white"
+                for="email"
+              >
+                Car Thumbnail
+              </label>
+              {{ car_form.thumbnail }}
+            </div>
+            <div class="md:ml-2">
+              <label
+                class="block mb-2 text-sm font-bold text-gray-700 dark:text-white"
+                for="c_password"
+              >
+                Price
+              </label>
+              {{ car_form.price }}
+            </div>
+            <div class="md:ml-2">
+              <label
+                class="block mb-2 text-sm font-bold text-gray-700 dark:text-white"
+                for="c_password"
+              >
+                Description
+              </label>
+              {{ car_form.description }}
+            </div>
 
-{% comment %} 
-    {% for form in formset  %}
-        <div>
-            {{ form.as_p }}
+            {{ formset.management_form }}
+
+            <div class="flex flex-col py-5">
+                <p class="text-center text-red-700">Pick different views of your car</p>
+              <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                  <div class="overflow-hidden py-5">
+                    <table class="min-w-full">
+                      <thead class="border-b">
+                        <tr>
+                          <th scope="row" class="text-sm font-medium">
+                            View Type
+                          </th>
+                          <th scope="row" class="text-sm font-medium">Image</th>
+                          <th scope="row" class="text-sm font-medium">
+                            Delete
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for form in formset %}
+                        <tr class="border-b">
+                          <td
+                            class="text-sm text-red-900 font-light px-6 py-4 whitespace-nowrap"
+                          >
+                            {{ form.view_type }}
+                          </td>
+                          <td
+                            class="text-sm text-red-900 font-light px-6 py-4 whitespace-nowrap"
+                          >
+                            {{ form.image }}
+                          </td>
+                          <td
+                            class="text-sm text-red-900 font-light px-6 py-4 whitespace-nowrap"
+                          >
+                            {{ form.DELETE }}
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-6 text-center py-5">
+              <button
+                class="w-full px-4 py-2 font-bold text-white bg-red-700 rounded-full hover:bg-red-800 dark:bg-blue-700 dark:text-white dark:hover:bg-blue-900 focus:outline-none focus:shadow-outline"
+                type="submit"
+              >
+                Add Car
+              </button>
+            </div>
+          </form>
         </div>
-    {% endfor %}
-    {% endcomment %}
-   
-    <button type='submit'>Add Car</button>
-    
-</form>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

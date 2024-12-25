@@ -5,6 +5,7 @@ app_name = 'carzz'
 
 urlpatterns = [
     path('', views.home_page, name='home'),
+    path('coming-soon/', views.coming_soon_page,name='coming-soon'),
     # path('profile_list/<int:pk>/', views.profile_list, name='profile-list'),
     # path('profile/<int:pk>/',views.profile,name='profile'),
     path('dashboard/', views.dashboard_router, name='dashboard_router'),

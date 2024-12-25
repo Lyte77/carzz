@@ -42,6 +42,7 @@ def login_user(request):
 
             if user is not None:
                 login(request, user)
+                messages.success(request, "Login Successful")
                 return redirect('carzz:home')
         else:
             print("Wrong creds")
@@ -65,6 +66,7 @@ def update_user(request):
           
             login(request,current_user)
             print("updated")
+            messages.success("User updated sucessfully")
             return redirect('carzz:home')
         return render(request,'account/update_user.html',{'form':form,
                                                           })
