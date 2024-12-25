@@ -27,7 +27,7 @@ urlpatterns = [
     path('__debug__/', include(debug_toolbar.urls)),
     path('__reload__/', include("django_browser_reload.urls")),
     path('account/',include('account.urls')),
-    path('carzz/', include('carzz.urls', namespace='carzz'))
+    path('', include('carzz.urls', namespace='carzz'))
 ]
 
 if settings.DEBUG:
