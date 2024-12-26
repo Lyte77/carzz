@@ -45,7 +45,9 @@ def login_user(request):
                 messages.success(request, "Login Successful")
                 return redirect('carzz:home')
         else:
+            messages.error(request, 'Wrong Credentials')
             print("Wrong creds")
+
 
     else:
         form = LoginForm()

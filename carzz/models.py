@@ -4,6 +4,7 @@ from django.conf import settings
 from account.models import CustomUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django_resized import ResizedImageField
 
 # Create your models here.
 
@@ -17,7 +18,7 @@ class DealerProfileModel(models.Model):
         website = models.URLField(blank=True)
         social_media = models.CharField(max_length=400)
         years_in_business = models.IntegerField(blank=True,null=True)
-        pic = models.ImageField(blank=True, upload_to='profile-img/%Y/%m/%d/')
+        pic = ResizedImageField(size=[600,600], quality=85,  null=True,  blank=True, upload_to='profile-img/%Y/%m/%d/')
         date_joined = models.DateTimeField(auto_now_add=True,null=True)
 
         def __str__(self):

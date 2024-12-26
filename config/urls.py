@@ -24,7 +24,7 @@ from django.urls import path, include
 urlpatterns = [
    
     path('theboss/', admin.site.urls),
-    path('__debug__/', include(debug_toolbar.urls)),
+    
     path('__reload__/', include("django_browser_reload.urls")),
     path('account/',include('account.urls')),
     path('', include('carzz.urls', namespace='carzz'))
