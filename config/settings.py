@@ -16,7 +16,7 @@ import dj_database_url
 from environ import Env
 env = Env()
 Env.read_env()
-ENVIRONMENT = env('ENVIRONMENT', default='development')
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,10 +29,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if ENVIRONMENT == 'development':
-    DEBUG = True
-else:
-    DEBUG = False
+
+DEBUG = True
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -119,9 +118,7 @@ DATABASES = {
     }
 }
 
-POSTGRES_LOCALLY = False
-if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
-    DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -161,17 +158,10 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
-if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
-    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
-else:
-    MEDIA_ROOT = BASE_DIR / 'media'
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': env('CLOUD_NAME'),
-    'API_KEY': env('CLOUD_API_KEY'),
-    'API_SECRET': env('CLOUD_API_SECRET')
-}
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
