@@ -36,8 +36,8 @@ class Car(models.Model):
     year = models.IntegerField(null=True)
     mileage = models.IntegerField(null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2,null=True)
-#     thumbnail = models.ImageField(blank=True,null=True,upload_to='car_images/')
-    thumbnail = CloudinaryField("car_image")
+    thumbnail = models.ImageField(blank=True,null=True,upload_to='car_images/')
+    
     description = models.TextField(null=True)
     views = models.PositiveIntegerField(default=0)
     sold = models.BooleanField(default=False)
