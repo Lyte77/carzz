@@ -121,7 +121,7 @@ DATABASES = {
     }
 }
 
-POSTGRES_LOCALLY = True
+POSTGRES_LOCALLY = False
 if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
     DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
@@ -174,8 +174,8 @@ else:
 
 CLOUDINARY_STORAGE = { 
     'CLOUD_NAME' : env('CLOUD_NAME'), 
-    'API_KEY ': env('CLOUD_API_KEY') ,
-   ' API_SECRET' : env('CLOUD_API_SECRET'), # Click 'View API Keys' above to copy your API secret
+    'API_KEY': env('CLOUD_API_KEY') ,
+   ' API_SECRET' : env('CLOUD_API_SECRET'), 
     
 }
 
