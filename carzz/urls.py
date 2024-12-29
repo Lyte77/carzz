@@ -22,5 +22,6 @@ urlpatterns = [
     path('edit-car/<int:id>/',views.edit_car, name='edit-car'),
     path('delete-car/<int:id>/', views.delete_car,name='delete_car'),
     path('save-car/<int:car_id>/', views.save_car,name='save_car'),
+    # path('cloudinary_test/', views.cloudinary_test_view, name='cloudinary_test'),
 
 ]

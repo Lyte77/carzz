@@ -15,6 +15,10 @@ import dj_database_url
 import environ
 import os
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 from environ import Env
 env = Env()
 Env.read_env()
@@ -125,7 +129,7 @@ DATABASES = {
     }
 }
 
-POSTGRES_LOCALLY = True
+POSTGRES_LOCALLY = False
 if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
     DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
@@ -173,15 +177,25 @@ MEDIA_URL = 'media/'
 
 if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    # CLOUDINARY_STORAGE = { 
+    #     'CLOUD_NAME': env('CLOUD_NAME'), 
+    #     'API_KEY': env('CLOUD_API_KEY') ,
+    #     'API_SECRET': env('CLOUD_API_SECRET'), 
+        
+    # }
+    cloudinary.config(
+            cloud_name=env('CLOUD_NAME'),
+            api_key=env('CLOUD_API_KEY'),
+            api_secret=env('CLOUD_API_SECRET'),
+        )
 else:
     MEDIA_ROOT = BASE_DIR / 'media'
 
-CLOUDINARY_STORAGE = { 
-    'CLOUD_NAME': env('CLOUD_NAME'), 
-    'API_KEY': env('CLOUD_API_KEY') ,
-    'API_SECRET': env('CLOUD_API_SECRET'), 
-    
-}
+cloudinary.config(
+            cloud_name=env('CLOUD_NAME'),
+            api_key=env('CLOUD_API_KEY'),
+            api_secret=env('CLOUD_API_SECRET'),
+        )
 
 
 

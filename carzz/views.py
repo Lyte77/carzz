@@ -303,3 +303,26 @@ def save_car(request,car_id):
           saved_car.delete()
           messages.success(request,'Car Saved')
      return redirect('carzz:user_dashboard', user_id=request.user.id)
+
+
+# from django.http import HttpResponse
+# import cloudinary.uploader
+# import os
+# import environ
+# from environ import Env
+
+# def cloudinary_test_view(request):
+#     try:
+#         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#         env = Env()
+#         environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+#         cloudinary.config(
+#             cloud_name=env('CLOUD_NAME'),
+#             api_key=env('CLOUD_API_KEY'),
+#             api_secret=env('CLOUD_API_SECRET'),
+#         )
+#         upload_result = cloudinary.uploader.upload("carzz/static/images/dark-car.jpg")
+#         return HttpResponse(f"Upload Result: {upload_result}")
+#     except Exception as e:
+#         return HttpResponse(f"Cloudinary upload test failed: {e}")
