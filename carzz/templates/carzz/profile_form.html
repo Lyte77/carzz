@@ -62,8 +62,8 @@
               </div>
             </div>
             <div class="flex justify-end">
-            
-              {{ profile_form.pic }}
+            <img src="" alt="profile_pic">
+             
               
 
               <div
@@ -72,7 +72,7 @@
                 <label
                   for="upload_cover"
                   class="inline-flex items-center gap-1 cursor-pointer"
-                  >Cover
+                  >
 
                   <svg
                     data-slot="icon"
@@ -135,6 +135,11 @@
                 {{ profile_form.social_media}} 
                
               </div>
+            </div>
+            <div class="w-full mb-4 lg:mt-6">
+              <label for="" class="dark:text-gray-300">Profile Pic</label>
+              {{ profile_form.pic}} 
+             
             </div>
 
             <div class="mb-6 text-center py-5">

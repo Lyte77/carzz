@@ -104,7 +104,7 @@ class UserProfileForm(forms.ModelForm):
 class DealerAddCarForm(forms.ModelForm):
     make = forms.CharField(widget=forms.TextInput(
         attrs= {
-            'class':'h-10 border mt-1 rounded px-4 w-full bg-gray-50"',
+            'class':'w-full px-8 py-4 rounded-lg font-medium  border border-red-700  text-sm focus:outline-none  focus:bg-white mt-5',
         }
     ))
     model = forms.CharField(widget=forms.TextInput(
@@ -147,13 +147,57 @@ class DealerAddCarForm(forms.ModelForm):
 class DealerAddImagesForm(forms.ModelForm):
     class Meta:
         model = CarImage
-        fields = [  'image','view_type']
+        fields = [ 'image','view_type']
     
     
 CarImageFormSet = modelformset_factory(
+   
     CarImage,
+     fields=['id', 'image','view_type'],
     form=DealerAddImagesForm,
-    extra=3,
+    extra=1,
     can_delete=True
 
 )
+
+class DealerEditCar(forms.ModelForm):
+    make = forms.CharField(widget=forms.TextInput(
+        attrs= {
+            'class':'w-full px-8 py-4 rounded-lg font-medium  border border-red-700  text-sm focus:outline-none  focus:bg-white mt-5',
+        }
+    ))
+    model = forms.CharField(widget=forms.TextInput(
+        attrs={
+            'class':'w-full px-8 py-4 rounded-lg font-medium  border border-red-700  text-sm focus:outline-none  focus:bg-white mt-5'
+        }
+    ))
+    year = forms.CharField(widget=forms.NumberInput(
+        attrs={
+            'class':'w-full px-8 py-4 rounded-lg font-medium  border border-red-700  text-sm focus:outline-none  focus:bg-white mt-5'
+        }
+    ))
+    mileage = forms.CharField(widget=forms.NumberInput(
+        attrs={
+            'class':'w-full px-8 py-4 rounded-lg font-medium  border border-red-700  text-sm focus:outline-none  focus:bg-white mt-5'
+        }
+    ))
+    thumbnail = forms.FileField(widget=forms.FileInput(
+        attrs={
+            # 'class':'  px-8 py-4 rounded-lg font-medium  border border-red-700  text-sm focus:outline-none  focus:bg-white mt-5'
+        }
+    ))
+    price = forms.CharField(widget=forms.NumberInput(
+        attrs={
+            'class':'w-full px-8 py-4 rounded-lg font-medium  border border-red-700  text-sm focus:outline-none  focus:bg-white mt-5'
+        }
+    ))
+    description = forms.CharField(widget=forms.Textarea(
+        attrs={
+            'class':'w-full px-8 py-4 rounded-lg font-medium  border border-red-700  text-sm focus:outline-none  focus:bg-white mt-5'
+        }
+    ))
+
+
+    class Meta:
+        model = Car
+        fields = ['make','model','year','mileage','thumbnail','price','description']

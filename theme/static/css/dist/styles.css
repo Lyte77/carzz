@@ -3320,6 +3320,11 @@ details.collapse summary::-webkit-details-marker {
   background-color: rgb(255 255 255 / 0.9);
 }
 
+.bg-red-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 38 38 / var(--tw-bg-opacity, 1));
+}
+
 .bg-\[url\(\'\'\)\] {
   background-image: url('');
 }

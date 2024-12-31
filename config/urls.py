@@ -30,10 +30,10 @@ urlpatterns = [
     path('', include('carzz.urls', namespace='carzz'))
 ]
 
-if settings.DEBUG:
- urlpatterns += static(
- settings.MEDIA_URL,
- document_root=settings.MEDIA_ROOT
- )
+if settings.ENVIRONMENT == 'development':
+    urlpatterns += static(
+    settings.MEDIA_URL,
+    document_root=settings.MEDIA_ROOT
+    )
 
  

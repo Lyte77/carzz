@@ -70,6 +70,9 @@ def dealer_dashboard(request, dealer_id):
             dealer_cars = Car.objects.filter(dealer=dealer_profile).prefetch_related('images')
             total_views = dealer_cars.aggregate(Sum('views'))['views__sum'] or 0
             no_of_sold_cars = dealer_cars.filter(sold=True).count()
+            no_of_cars = dealer_cars.count()
+
+            print( f"No of cars : {no_of_cars}")
 
             if request.method == 'POST' and 'mark_as_sold' in request.POST:
                 car_id = request.POST.get('car_id')
@@ -88,6 +91,7 @@ def dealer_dashboard(request, dealer_id):
                       'dealer_cars':dealer_cars,
                       'total_views': total_views,
                       'no_of_sold_cars':no_of_sold_cars,
+                      'no_of_cars':no_of_cars,
                       }
             return render(request, 'carzz/dashboard.html',context)
     
@@ -135,7 +139,7 @@ def setup_profile(request):
     if request.user.is_authenticated and request.user.is_dealer:
             try:
                 if request.method == 'POST':
-                    profile_form = DealerProfileForm(request.POST, request.FILES)
+                    profile_form = DealerProfileForm(request.POST, files=request.FILES)
                     if profile_form.is_valid():
                         profile = profile_form.save(commit=False)  # Avoid unnecessary database write-through
                         profile.user = request.user
@@ -191,7 +195,7 @@ def update_profile(request):
                     return redirect('carzz:dealer_dashboard', dealer_id=request.user.id)
             else:
                 current_profile = DealerProfileModel.objects.get(user=request.user)
-                form = DealerEditProfileForm(instance=current_profile)
+                form = DealerEditProfileForm(instance=current_profile, files=request.FILES)
             return render(request, 'carzz/profile_form.html',{'profile_form':form})
         
     
@@ -218,42 +222,49 @@ def update_user_profile(request):
           return render(request, 'carzz/user_profile_form.html',{'form':form})
 
 
+
 def add_car(request):
+    # Ensure the user is authenticated and has the correct role
     if request.user.is_authenticated and request.user.is_dealer:
-     
-          
-          if request.method == 'POST':
-              car = Car(dealer=DealerProfileModel.objects.get(user=request.user))
-              car.save()
-           
-             
-              car_form = DealerAddCarForm(request.POST,request.FILES,instance=car)
-              formset = CarImageFormSet(request.POST,request.FILES,queryset=CarImage.objects.none())
-              if car_form.is_valid() and formset.is_valid():
-                  car_form.save()
-                  messages.success(request,'Car added Sucessfully')
-              else:
-                     messages.error(request, 'There is an issue adding your cars')
-                          
+        # Handle POST requests for car and images
+        if request.method == 'POST':
+            # Initialize the car object with the current dealer
+            car = Car(dealer=DealerProfileModel.objects.get(user=request.user))
 
-              for form in formset:
-                      if form.cleaned_data:
-                          car_image = form.save(commit=False)
-                          car_image.car = car
-                          car_image.save()
-                      
-              return redirect('carzz:dealer_dashboard',dealer_id=request.user.id)
-               
-          else:
-              car_form = DealerAddCarForm()
-              formset = CarImageFormSet(queryset=CarImage.objects.none())
-              return render(request,'carzz/add_car.html',{
-                  'car_form':car_form,
-                  'formset':formset
-                  })
+            # Bind forms and formsets to POST data and files
+            car_form = DealerAddCarForm(request.POST, request.FILES, instance=car)
+            formset = CarImageFormSet(request.POST, request.FILES, queryset=CarImage.objects.none())
+
+            if car_form.is_valid() and formset.is_valid():
+                # Save the car object
+                car = car_form.save()
+
+                # Save all the valid images from the formset
+                for form in formset:
+                    if form.cleaned_data:
+                        car_image = form.save(commit=False)
+                        car_image.car = car
+                        car_image.save()
+
+                # Display a success message and redirect to the dashboard
+                messages.success(request, 'Car added successfully.')
+                return redirect('carzz:dealer_dashboard', dealer_id=request.user.id)
+            else:
+                # Handle form and formset errors
+                messages.error(request, 'There was an issue adding your car. Please check the form and try again.')
+
+        else:  # Handle GET requests by displaying empty forms
+            car_form = DealerAddCarForm()
+            formset = CarImageFormSet(queryset=CarImage.objects.none())
+
+        # Render the add_car template
+        return render(request, 'carzz/add_car.html', {
+            'car_form': car_form,
+            'formset': formset
+        })
+
+    # Redirect unauthenticated users to the login page
     return redirect('login')
-
-
              
                  
                  
@@ -262,37 +273,73 @@ def add_car(request):
 
 
 
-def edit_car(request,id):
+        
+
+
+def edit_car(request, id):
+    # Ensure the user is authenticated and a dealer
     if request.user.is_authenticated and request.user.is_dealer:
-           car = get_object_or_404(Car,id=id)
-           formset = CarImageFormSet(queryset=CarImage.objects.filter(car=car)) 
+        # Get the car object or return a 404 if not found
+        car = get_object_or_404(Car, id=id, dealer__user=request.user)
 
-           if request.method == 'POST':
-               car_form = DealerAddCarForm(request.POST,request.FILES,instance=car)
-               formset = CarImageFormSet(request.POST,request.FILES,queryset=CarImage.objects.filter(car=car))
+        # Initialize the formset with the car's images
+        formset = CarImageFormSet(queryset=CarImage.objects.filter(car=car))
 
-               if car_form.is_valid() and formset.is_valid():
-                   car_form.save()
-                   
-                   for form in formset:
-                       if form.cleaned_data and not form.cleaned_data.get('DELETE'):
-                           car_image = form.save(commit=False)
-                           car_image.car = car
-                           car_image.save()
-                           messages.success(request,'Car Updated')
-                       elif form.cleaned_data.get('DELETE'):
-                           form.instance.delete()
-                   return redirect('carzz:dealer_dashboard',dealer_id=request.user.id)
-           else:
-               car_form = DealerAddCarForm(instance=car)
-               formset = CarImageFormSet(queryset=CarImage.objects.filter(car=car))
+        if request.method == 'POST':
+            print(request.POST)
+            print(request.FILES)
+            # Bind the forms and formset to the POST data
+            car_form = DealerAddCarForm(request.POST, request.FILES, instance=car)
+            formset = CarImageFormSet(request.POST or None, request.FILES or None, queryset=CarImage.objects.filter(car=car))
 
-           return render(request,'carzz/add_car.html', {'car_form':car_form,
-                                                        'formset':formset})
-    
+            if car_form.is_valid():
+                # Save the car form
+                car_form.save()
+
+                # Process each form in the formset
+                if formset.is_valid():
+                        for form in formset:
+                            if form.cleaned_data:
+                                if form.cleaned_data.get('DELETE'):
+                                    form.instance.delete()
+                                else:
+                                # Save the updated or new image
+                                    car_image = form.save(commit=False)
+                                    car_image.car = car
+                                    car_image.save()
+                else:
+                     print("Formset Errors:", formset.errors)
+
+                # Display a success message and redirect to the dashboard
+                messages.success(request, 'Car updated successfully.')
+                return redirect('carzz:dealer_dashboard', dealer_id=request.user.id)
+            
+
+                
+            else:
+                messages.error(request, 'There was an issue updating the car. Please check the form and try again.')
+
+        else:
+            # Initialize the forms with existing data
+            car_form = DealerAddCarForm(instance=car)
+
+        # Render the edit car template
+        return render(request, 'carzz/update_car.html', {
+            'car_form': car_form,
+            'formset': formset
+        })
+
+   
+    return redirect('login')
+
+
+
+
+
 def delete_car(request, id):
     car = get_object_or_404(Car,id=id)
     car.delete()
+    messages.success(request,"Car deleted Sucessfully")
     return redirect('carzz:dealer_dashboard',request.user.id)
 
 def save_car(request,car_id):
@@ -305,24 +352,3 @@ def save_car(request,car_id):
      return redirect('carzz:user_dashboard', user_id=request.user.id)
 
 
-# from django.http import HttpResponse
-# import cloudinary.uploader
-# import os
-# import environ
-# from environ import Env
-
-# def cloudinary_test_view(request):
-#     try:
-#         BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-#         env = Env()
-#         environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-
-#         cloudinary.config(
-#             cloud_name=env('CLOUD_NAME'),
-#             api_key=env('CLOUD_API_KEY'),
-#             api_secret=env('CLOUD_API_SECRET'),
-#         )
-#         upload_result = cloudinary.uploader.upload("carzz/static/images/dark-car.jpg")
-#         return HttpResponse(f"Upload Result: {upload_result}")
-#     except Exception as e:
-#         return HttpResponse(f"Cloudinary upload test failed: {e}")
