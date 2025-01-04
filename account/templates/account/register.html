@@ -1,4 +1,5 @@
 {% extends 'carzz/base.html' %}
+
 {% load static %}
 {% block content %}
 <div class="h-full dark:bg-gray-900">
@@ -140,21 +141,19 @@
                   />
                 </svg>
               </div>
+              <a href="">
               <span class="ml-4"> Sign In with Google </span>
+
+              </a>
             </button>
           </div>
           <div class="text-center py-5">
-            <a
-              class="inline-block text-sm text-red-500 dark:text-red-500 align-baseline hover:text-blue-800"
-              href="#"
-            >
-              Forgot Password?
-            </a>
+           
           </div>
           <div class="text-center">
             <a
               class="inline-block text-sm text-red-500 dark:text-red-500 align-baseline"
-              href="#"
+              href="{% url  'login' %}"
             >
               Already have an account? Login!
             </a>

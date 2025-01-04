@@ -23,12 +23,17 @@
             text-black focus:outline-none">Menu</button>
           </div>
 
+          {% if request.user.is_authenticated %}
+          <div class="bg-red-700 px-2 py-1 pb-2 rounded-full
+                text-white text-center ">{{user.first_name}}</div>
           <div class="hidden md:block">
-            {% if request.user.is_authenticated %}
+              <div class="flex justify-end space-x-4">
                 <a href="{% url 'logout' %}" class="bg-red-700 px-2 py-1 pb-2 rounded-full
                 text-white text-center">Logout</a>
                  <a href="{% url 'carzz:dashboard_router' %}" class="bg-red-700 px-2 py-1 pb-2 rounded-full
                 text-white text-center">Your dashboard</a>
+                
+              </div>
 
             {% else %}
                 <a href="{% url 'register' %}" class="bg-red-700 px-2 py-1 pb-2 rounded-full

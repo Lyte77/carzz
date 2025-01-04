@@ -27,6 +27,8 @@ urlpatterns = [
     
     path('__reload__/', include("django_browser_reload.urls")),
     path('account/',include('account.urls')),
+    # path('accounts/', include('allauth.urls')),
+    # path('social-auth/', include('social_django.urls', namespace='social')),
     path('', include('carzz.urls', namespace='carzz'))
 ]
 

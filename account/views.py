@@ -19,10 +19,11 @@ def register_user(request):
             # if user.is_dealer:
             #     dealer_profile = DealerProfileModel(user=user)
             #     dealer_profile.save()
-           
-            login(request,user) 
-            messages.success(request, 'Account created sucessfully') 
-            return redirect('carzz:home')
+                # user.backend = 'allauth.account.auth_backends.AuthenticationBackend'
+
+                login(request,user) 
+                messages.success(request, 'Account created sucessfully') 
+                return redirect('carzz:home')
         except ValueError as e:
             print(f'Error {e}')
 
@@ -77,3 +78,5 @@ def update_user(request):
         return redirect('login')
     
         
+
+

@@ -43,20 +43,24 @@ if ENVIRONMENT == 'development':
 else:
     DEBUG = False
 
-
-ALLOWED_HOSTS = ['*']
+# DEBUG = True
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
 
+    
+
 INSTALLED_APPS = [
-    'account.apps.AccountConfig',
+    # 'account.apps.AccountConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'django.contrib.sites',
+    'account',
     'cloudinary_storage',
     'cloudinary',
     
@@ -68,8 +72,26 @@ INSTALLED_APPS = [
     'tailwind',
     'theme',
     'django_browser_reload',
+    # 'social_django',
+    # 'django_extensions',
+    # 'django.contrib.sites',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.google',
+
 
 ]
+
+# SOCIAL_ACCOUNT_PROVIDERS = {
+#     "google":{
+#         "SCOPE":[
+#             "profile",
+#             "email"
+#         ],
+#         "AUTH_PARAMS": {"access_type":"online"}
+#     }
+# }
 
 TAILWIND_APP_NAME = 'theme'
 
@@ -90,6 +112,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_browser_reload.middleware.BrowserReloadMiddleware',
+    # 'allauth.account.middleware.AccountMiddleware',
 
 ]
 
@@ -129,7 +152,7 @@ DATABASES = {
     }
 }
 
-POSTGRES_LOCALLY = True
+POSTGRES_LOCALLY = False
 if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
     DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
@@ -192,15 +215,17 @@ if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
 else:
     MEDIA_ROOT = BASE_DIR / 'media'
 
-cloudinary.config(
-            cloud_name=env('CLOUD_NAME'),
-            api_key=env('CLOUD_API_KEY'),
-            api_secret=env('CLOUD_API_SECRET'),
-        )
+# cloudinary.config(
+#             cloud_name=env('CLOUD_NAME'),
+#             api_key=env('CLOUD_API_KEY'),
+#             api_secret=env('CLOUD_API_SECRET'),
+#         )
 
 
 
-
+# Googl 0Auth
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('GOOGLE_OAUTH2_KEY')
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('GOOGLE_OAUTH_SECRET')
 
 
 # Default primary key field type
@@ -208,14 +233,51 @@ cloudinary.config(
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'account.CustomUser'
+AUTH_USER_MODEL = 'my_account.CustomUser'
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-INTERNAL_IPS = [
-    '127.0.0.1', 
-    'localhost:8000', # Add your local IPs
-]
+
+if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_HOST_USER = env('EMAIL_ADDRESS')
+    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    DEFAULT_FROM_EMAIL = 'Carzz'
+    ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+    
+
+# INTERNAL_IPS = [
+#     '127.0.0.1', 
+#     'localhost:8000', # Add your local IPs
+# ]
 
 ACCOUNT_USERNAME_BLACKLIST = ['theboss']
+
+
+
+# AUTHENTICATION_BACKENDS = [
+#     'django.contrib.auth.backends.ModelBackend',  # Default Django backend
+#     # 'allauth.account.auth_backends.AuthenticationBackend',  # Allauth backend
+# ]
+
+
+# Use email as the unique identifier
+# ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+# ACCOUNT_USERNAME_REQUIRED = False
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_EMAIL_VERIFICATION = 'optional'  
+# ACCOUNT_AUTHENTICATION_METHOD = "email" 
+
+
+
+# SOCIAL_AUTH_GOOGLE_OAUTH2_REDIRECT_URI = 'https://127.0.0.1:8000/social-auth/complete/google-oauth2/'
+# SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+
+LOGIN_REDIRECT_URL = "/"
