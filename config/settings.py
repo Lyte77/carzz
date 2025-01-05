@@ -74,14 +74,27 @@ INSTALLED_APPS = [
     'django_browser_reload',
     # 'social_django',
     # 'django_extensions',
-    # 'django.contrib.sites',
-    # 'allauth',
-    # 'allauth.account',
-    # 'allauth.socialaccount',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     # 'allauth.socialaccount.providers.google',
 
 
 ]
+
+SITE_ID = 1
+
+# ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+# ACCOUNT_USERNAME_REQUIRED = False
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_UNIQUE_EMAIL = True
+
+
+# ACCOUNT_FORMS = {
+#     'login': 'account.forms.CustomLoginForm',
+# }
 
 # SOCIAL_ACCOUNT_PROVIDERS = {
 #     "google":{
@@ -112,7 +125,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_browser_reload.middleware.BrowserReloadMiddleware',
-    # 'allauth.account.middleware.AccountMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 
 ]
 
@@ -152,7 +165,7 @@ DATABASES = {
     }
 }
 
-POSTGRES_LOCALLY = False
+POSTGRES_LOCALLY = True
 if ENVIRONMENT == 'production' or POSTGRES_LOCALLY == True:
     DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
@@ -268,12 +281,15 @@ ACCOUNT_USERNAME_BLACKLIST = ['theboss']
 
 
 # Use email as the unique identifier
-# ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-# ACCOUNT_USERNAME_REQUIRED = False
-# ACCOUNT_AUTHENTICATION_METHOD = 'email'
-# ACCOUNT_EMAIL_REQUIRED = True
-# ACCOUNT_EMAIL_VERIFICATION = 'optional'  
-# ACCOUNT_AUTHENTICATION_METHOD = "email" 
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'optional'  
+ACCOUNT_AUTHENTICATION_METHOD = "email" 
+
+ACCOUNT_SIGNUP_REDIRECT_URL = None
+ACCOUNT_LOGIN_REDIRECT_URL = None
 
 
 

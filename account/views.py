@@ -3,6 +3,7 @@ from .forms import CustomUserCreationForm, LoginForm
 from django.contrib.auth import login,logout,authenticate
 from django.contrib import messages
 from .models import CustomUser
+from allauth.account.utils import send_email_confirmation
 from carzz.models import DealerProfileModel
 from carzz.forms import DealerProfileForm
 
@@ -22,6 +23,7 @@ def register_user(request):
                 # user.backend = 'allauth.account.auth_backends.AuthenticationBackend'
 
                 login(request,user) 
+                send_email_confirmation(request, user)
                 messages.success(request, 'Account created sucessfully') 
                 return redirect('carzz:home')
         except ValueError as e:

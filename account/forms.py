@@ -1,5 +1,6 @@
 from django import forms
 from .models import CustomUser
+
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 class CustomUserCreationForm(UserCreationForm):
@@ -58,3 +59,5 @@ class LoginForm(AuthenticationForm):
             'placeholder':'Password'
         }
     ))
+     
+
