@@ -1,75 +1,136 @@
-{% extends 'carzz/base.html' %}
-{% block content %}
-<!-- <div class="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
+{% extends "carzz/base.html" %}
+ {% block content %}
 
-       
-        <form method='post' enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-        
-            <input type='submit' value='Save Profile'>
-        </form>
-</div> -->
-
-
-
-<div class="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
+<!-- <form action="" method="post" enctype="multipart/form-data" >
+    {% csrf_token %}
+    {{ profile_form.as_p }}
+    <button type="submit">Update</button>
+    
+</form> -->
+<section class="py-10 my-auto dark:bg-gray-900">
+  <div class="lg:w-[80%] md:w-[90%] xs:w-[96%] mx-auto flex gap-4">
     <div
-      class="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1 bg-hero-image bg-cover"
+      class="lg:w-[88%] md:w-[80%] sm:w-[88%] xs:w-full mx-auto shadow-2xl p-4 rounded-xl h-fit self-center dark:bg-gray-800/40"
     >
-      <div class="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
-        <div class="mt-12 flex flex-col items-center">
-          <h1 class="text-4xl text-red-700 font-extrabold">Carzz</h1>
-          <h2 class="text-2xl xl:text-3xl pt-5 font-extrabold text-red-700">
-            Update Your Profile
-          </h2>
-          <div class="w-full flex-1 mt-8">
-            <div class="mx-auto max-w-xs">
+      <div class="">
+        <h1 id="name"
+          class="text-center  lg:text-3xl md:text-2xl sm:text-xl xs:text-xl font-serif font-extrabold mb-2 dark:text-white"
+        >
+          Profile
+        </h1>
+        
+        <form action="" method="post"  enctype="multipart/form-data" class="outline-red-50">
+          {% csrf_token %}
+
+          <div
+            class="w-full rounded-sm  bg-cover bg-center bg-no-repeat items-center"
+             style="background-image: url('')"
+          >
+          </div>
+            {% if request.dealer_profile.pic.url %}
+              <div class="mx-auto flex justify-center w-[141px] h-[141px] bg-blue-300/20 rounded-full bg-cover bg-center bg-no-repeat">
+                <img src=""  id="avatar" class="rounded-full bg-cover w-40" alt="">
+              </div>
+            {% else %}
+              <div class="mx-auto flex justify-center w-[141px] h-[141px] bg-blue-300/20 rounded-full bg-cover bg-center bg-no-repeat">
+                <img src=""  id="avatar" class="rounded-full bg-cover w-40" alt="">
+              </div>
+            {% endif %}
+   
+          
+              <div class="bg-white/90 rounded-full w-6 h-6 text-center ml-28 mt-4">
+              
+                
+                
+              </div>
+            </div>
+            <div class="flex justify-end">
+            
              
-              <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-  
-                <label for="" class="text-red-700 py-5">Profile Picture</label>
-                {{ form.profile_picture }}
+              
 
-                <label for=""> Phone Number</label>
-                {{ form.phone_number}}
+              <div
+                class="bg-white flex items-center gap-1 rounded-tl-md px-2 text-center font-semibold"
+              >
+                
+              </div>
+            </div>
+            <h2 class="text-center mt-1 font-semibold dark:text-gray-300">Upload Profile and Cover Image</h2>
+            
+            <div
+              class="flex lg:flex-row md:flex-col sm:flex-col xs:flex-col gap-2 justify-center w-full"
+            >
 
-                <label for=""> Address</label>
-                {{ form.address}}
-  
-                <button
-                  class="mt-5 tracking-wide font-semibold bg-red-700 text-gray-100 w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
-                  type="submit"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-6 h-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-                    />
-                  </svg>
-  
-                  <span class="ml-3">Save Profile </span>
-                </button>
-              </form>
-  
+            
+               <div class="w-full mb-4 mt-6">
+                <label for="" class="mb-2 dark:text-gray-300">Full Name</label>
+                    {{ profile_form.name }}
+                
+              </div>
+               <div class="w-full mb-4 mt-6">
+                <label for="" class="mb-2 dark:text-gray-300">Email</label>
+                    {{ profile_form.email }}
+                
+              </div>
               
             </div>
-          </div>
-        </div>
+            <div
+              class="flex lg:flex-row md:flex-col sm:flex-col xs:flex-col gap-2 justify-center w-full"
+            >
+            <div class="w-full mb-4 mt-6">
+                <label for="" class="mb-2 dark:text-gray-300">Phone Number</label>
+                {{ profile_form.phone_number }}
+              </div>
+
+              <div class="w-full mb-4 lg:mt-6">
+                <label for="" class="dark:text-gray-300">Address</label>
+                    {{ profile_form.address }}
+              </div>
+            </div>
+            
+              
+            <div class="w-full mb-4 lg:mt-6">
+              <label for="" class="dark:text-gray-300">Profile Pic</label>
+              {{ profile_form.profile_picture }} 
+             
+            </div>
+
+            <div class="mb-6 text-center py-5">
+                <input
+                  class="w-full px-4 py-2 font-bold text-white bg-red-700 rounded-full hover:bg-red-800 dark:bg-blue-700 dark:text-white dark:hover:bg-blue-900 focus:outline-none focus:shadow-outline"
+                  type="submit" value="Update"
+                >
+              </div>
+            </div>
+ 
+                 
+                
+            </form>
       </div>
     </div>
   </div>
-  {% endblock %}
-  
+</section>
 
+<script>
+    //updating the image
+    const fileInput = document.querySelector('input[type="file"]');
+    fileInput.addEventListener('change',(event) =>{
+        const file = event.target.files[0];
+        const image = document.querySelector('#avatar');
 
+        if (file && file.type.includes('image')){
+            const url = URL.createObjectURL(file);
+            image.src = url;
+        }
+    });
+    //updating the name
+    const nameInput = document.getElementById('id_name');
+    const nameOutout = document.getElementById('name');
 
+    nameInput.addEventListener('input',(event) =>{
+        nameOutout.innerText = event.target.value;
+    })
+</script>
+
+{% endblock %}
+ 

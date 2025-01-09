@@ -12,6 +12,12 @@ class DealerProfileForm(forms.ModelForm):
             'class':'h-10 border mt-1 rounded px-4 w-full bg-gray-50'
         }
     ))
+    email = forms.CharField(widget=forms.EmailInput(
+        attrs={
+            'placeholder':'Email',
+            'class':'h-10 border mt-1 rounded px-4 w-full bg-gray-50'
+        }
+    ))
     phone_number = forms.CharField(widget=forms.NumberInput(
          attrs={
             'class':'mt-2 p-4 w-full border-2 rounded-lg dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800' 
@@ -33,12 +39,12 @@ class DealerProfileForm(forms.ModelForm):
          }
      ))
 
-    pic = forms.ImageField(widget=forms.FileInput(
-
-    ))
+    pic = forms.FileField(widget=forms.FileInput(
+         
+     ))   
     class Meta:
         model = DealerProfileModel
-        fields = ['name','phone_number','address',
+        fields = ['name', 'email' ,'phone_number','address',
                   'social_media','years_in_business','pic']
 
       
@@ -46,6 +52,13 @@ class DealerEditProfileForm(forms.ModelForm):
      name = forms.CharField(widget=forms.TextInput(
         attrs={
             'placeholder':'Name',
+            'class':'h-10 border mt-1 rounded px-4 w-full bg-gray-50',
+            'id':'id_name'
+        }
+    ))
+     email = forms.CharField(widget=forms.EmailInput(
+        attrs={
+            'placeholder':'Email',
             'class':'h-10 border mt-1 rounded px-4 w-full bg-gray-50'
         }
     ))
@@ -71,18 +84,32 @@ class DealerEditProfileForm(forms.ModelForm):
              'class':'mt-2 p-4 w-full border-2 rounded-lg dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800'
          }
      ))
-     pic = forms.CharField(widget=forms.FileInput(
-         attrs={
-            
-         }
+     pic = forms.FileField(widget=forms.FileInput(
+         
      ))
+        
+    
      class Meta:
         model = DealerProfileModel
-        fields = ['name','phone_number','address',
+        fields = ['name', 'email', 'phone_number','address',
                   'social_media','years_in_business','pic']
         
 class UserProfileForm(forms.ModelForm):
-     profile_picture = forms.ImageField(widget=forms.FileInput(
+     name = forms.CharField(widget=forms.TextInput(
+         attrs={
+            'placeholder':'Name',
+            'class':'h-10 border mt-1 rounded px-4 w-full bg-gray-50'
+        }
+     ))
+
+     email = forms.CharField(widget=forms.EmailInput(
+        attrs={
+            'placeholder':'Email',
+            'class':'h-10 border mt-1 rounded px-4 w-full bg-gray-50'
+        }
+    ))
+
+     profile_picture = forms.FileField(widget=forms.FileInput(
 
     ))
      phone_number = forms.CharField(widget=forms.NumberInput(
@@ -98,7 +125,7 @@ class UserProfileForm(forms.ModelForm):
 
      class Meta:
         model = UserProfileModel
-        fields = ['profile_picture','phone_number','address']
+        fields = [ 'name','phone_number','address','profile_picture']
         
 
 class DealerAddCarForm(forms.ModelForm):

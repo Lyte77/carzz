@@ -13,13 +13,14 @@ from cloudinary.models import CloudinaryField
 class DealerProfileModel(models.Model):
         user = models.OneToOneField(CustomUser, on_delete=models.CASCADE,primary_key=True)
         name = models.CharField(max_length=200, blank=False)
+        email = models.EmailField(unique=True, null=True)
+        
         phone_number = models.CharField(max_length=20, blank=False)
-        # email = models.EmailField(unique=True, blank=False)
         address = models.CharField(blank=False, max_length=200)
         website = models.URLField(blank=True)
         social_media = models.CharField(max_length=400)
         years_in_business = models.IntegerField(blank=True,null=True)
-        pic = ResizedImageField(size=[600,600], quality=85,  null=True,  blank=True, upload_to='profile-img/%Y/%m/%d/')
+        pic = models.ImageField(upload_to='profile-img', blank=True,null=True)
         date_joined = models.DateTimeField(auto_now_add=True,null=True)
 
         def __str__(self):
@@ -70,6 +71,8 @@ class CarImage(models.Model):
 
 class UserProfileModel(models.Model):
      user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_profile')
+     name = models.CharField(max_length=200)
+     email = models.EmailField()
      profile_picture = models.ImageField(upload_to='profile-img/%Y/%m/%d/',blank=True, null=True)
      phone_number = models.CharField(max_length=15, blank=True,null=True)
      address = models.TextField(blank=True,null=True)

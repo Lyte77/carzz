@@ -1,80 +1,159 @@
-<nav class="sticky top-0 z-50 bg-white shadow-md dark:bg-neutral-900 ">
-    <div class="container mx-auto px-4 flex justify-between
-    items-center">
-        <div class="flex items-center pt-4  md:pt-4">
-          <a href="{% url 'carzz:home' %}" class="h-12 w-12 mr-4">
-            <span class="text-2xl font-sans  dark:text-blue-50">CARZZ</span>
-          </a>
-        </div>
-        <!-- navlinks -->
-        <div class="hidden md:block">
-          <div class="space-x-5">
-            
-            <a href="{% url 'carzz:coming-soon' %}" class="text-black transition-colors font-medium hover:text-red-700">Inventory</a>
-            <a href="{% url 'carzz:coming-soon' %}" class="text-black transition-colors font-medium hover:text-red-700">About Us</a>
-            <a href="{% url 'carzz:coming-soon' %}" class="text-black transition-colors font-medium hover:text-red-700">Cars</a>
-            <a href="{% url 'carzz:coming-soon' %}" class="text-black transition-colors font-medium hover:text-red-700">Services</a>
-            <a href="{% url 'carzz:coming-soon' %}" class="text-black transition-colors font-medium hover:text-red-700">Contact</a>
-          </div>
-        </div>
-        <!-- hamburger button -->
-          <div class="md:hidden">
-            <button id="menu-toggle" class="
-            text-black focus:outline-none">Menu</button>
-          </div>
+<nav class="sticky top-0 z-50 bg-white shadow-md dark:bg-neutral-900">
+  <div class="container mx-auto px-4 flex justify-between items-center">
+    <div class="flex items-center pt-4 md:pt-4">
+      <a href="{% url 'carzz:home' %}" class="h-12 w-12 mr-4">
+        <span class="text-2xl font-sans dark:text-blue-50">CARZZ</span>
+      </a>
+    </div>
+    <!-- navlinks -->
+    <div class="hidden md:block">
+      <div class="space-x-5">
+        <a
+          href="{% url 'carzz:coming-soon' %}"
+          class="text-black transition-colors font-medium hover:text-red-700"
+          >Inventory</a
+        >
+        <a
+          href="{% url 'carzz:coming-soon' %}"
+          class="text-black transition-colors font-medium hover:text-red-700"
+          >About Us</a
+        >
+        <a
+          href="{% url 'carzz:coming-soon' %}"
+          class="text-black transition-colors font-medium hover:text-red-700"
+          >Cars</a
+        >
+        <a
+          href="{% url 'carzz:coming-soon' %}"
+          class="text-black transition-colors font-medium hover:text-red-700"
+          >Services</a
+        >
+        <a
+          href="{% url 'carzz:coming-soon' %}"
+          class="text-black transition-colors font-medium hover:text-red-700"
+          >Contact</a
+        >
+      </div>
+    </div>
+    <!-- hamburger button -->
+    <div class="md:hidden">
+      <button id="menu-toggle" class="text-black focus:outline-none">
+        <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"   class="w-5 h-5" fill="#e91c1c">
+          <g id="SVGRepo_bgCarrier" stroke-width="0">
+          </g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
 
-          {% if request.user.is_authenticated %}
-          <div class="bg-red-700 px-2 py-1 pb-2 rounded-full
-                text-white text-center ">{{user.first_name}}</div>
-          <div class="hidden md:block">
-              <div class="flex justify-end space-x-4">
-                <a href="{% url 'logout' %}" class="bg-red-700 px-2 py-1 pb-2 rounded-full
-                text-white text-center">Logout</a>
-                 <a href="{% url 'carzz:dashboard_router' %}" class="bg-red-700 px-2 py-1 pb-2 rounded-full
-                text-white text-center">Your dashboard</a>
-                
-              </div>
-
-            {% else %}
-                <a href="{% url 'register' %}" class="bg-red-700 px-2 py-1 pb-2 rounded-full
-                text-white text-center">SignUp</a>
-                <a href="{% url 'login' %}" class="bg-red-700 px-2 py-1 pb-2 rounded-full
-                text-white text-center">Login</a>
-            {% endif %}
-          </div>
+          </g>
+          <g id="SVGRepo_iconCarrier">
+           <rect width="352" height="32" x="80" y="96" fill="var(--ci-primary-color, #00000)" class="ci-primary"></rect>
+            <rect width="352" height="32" x="80" y="240" fill="var(--ci-primary-color, #00000)" class="ci-primary"></rect> <rect width="352" height="32" x="80" y="384" fill="var(--ci-primary-color, #00000)" class="ci-primary"></rect> </g></svg>
+      </button>
     </div>
 
-    <!-- mobile menu -->
-    <div id="mobile-menu" class="
-    md:hidden bg-white hidden">
-    <div class="px-4 pt-2 pb-4 space-y-2">
+    {% if request.user.is_authenticated %}
+      {% if request.user.is_dealer %} 
+          
+              <div class="bg-white shadow rounded-full w-8 h-8">
+                <img
+                  src="{{ dealer_profile.pic.url }}"
+                  alt="profile-pic"
+                  class="w-8 h-8 rounded-full mb-4 shrink-0"
+                />
+              </div>
+          
+     {% else %}
+          <div class="bg-white shadow rounded-full w-8 h-8">
+            <img
+              src="{{ user_profile.profile_picture.url }}"
+              alt="profile-pic"
+              class="w-8 h-8 rounded-full mb-4 shrink-0"
+            />
+          </div>
+    {% endif %}
 
-      <a href="{% url 'carzz:coming-soon' %}" class="block text-black hover:text-red-700
-      transition-colors font-medium py-2 border-b border-red-700">Inventory</a>
-      <a href="{% url 'carzz:coming-soon' %}" class="block text-black hover:text-red-700
-      transition-colors font-medium py-2 border-b border-red-700">About Us</a>
-      <a href="{% url 'carzz:coming-soon' %}" class="block text-black hover:text-red-700
-      transition-colors font-medium py-2 border-b border-red-700">Cars</a>
-      <a href="{% url 'carzz:coming-soon' %}" class="block text-black hover:text-red-700
-      transition-colors font-medium py-2 border-b border-red-700">Services</a>
-      <a href="{% url 'carzz:coming-soon' %}" class="block text-black hover:text-red-700
-      transition-colors font-medium py-2 border-b border-red-700">Contact</a>
-      
-      <div class="container mx-auto flex justify-between">
+    <div class="hidden md:block">
+      <div class="flex justify-end space-x-4">
+        <a
+          href="{% url 'logout' %}"
+          class="bg-red-700 px-2 py-1 pb-2 rounded-full text-white text-center"
+          >Logout</a
+        >
+        <a
+          href="{% url 'carzz:dashboard_router' %}"
+          class="bg-red-700 px-2 py-1 pb-2 rounded-full text-white text-center"
+          >Your dashboard</a
+        >
+      </div>
+
+      {% else %}
+      <a
+        href="{% url 'register' %}"
+        class="bg-red-700 px-2 py-1 pb-2 rounded-full text-white text-center"
+        >SignUp</a
+      >
+      <a
+        href="{% url 'login' %}"
+        class="bg-red-700 px-2 py-1 pb-2 rounded-full text-white text-center"
+        >Login</a
+      >
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- mobile menu -->
+  <div id="mobile-menu" class="md:hidden  bg-white hidden">
+    <div class="px-4 pt-2 pb-4 space-y-2">
+      <a
+        href="{% url 'carzz:coming-soon' %}"
+        class="block text-black hover:text-red-700 transition-colors font-medium py-2 border-b border-red-700"
+        >Inventory</a
+      >
+      <a
+        href="{% url 'carzz:coming-soon' %}"
+        class="block text-black hover:text-red-700 transition-colors font-medium py-2 border-b border-red-700"
+        >About Us</a
+      >
+      <a
+        href="{% url 'carzz:coming-soon' %}"
+        class="block text-black hover:text-red-700 transition-colors font-medium py-2 border-b border-red-700"
+        >Cars</a
+      >
+      <a
+        href="{% url 'carzz:coming-soon' %}"
+        class="block text-black hover:text-red-700 transition-colors font-medium py-2 border-b border-red-700"
+        >Services</a
+      >
+      <a
+        href="{% url 'carzz:coming-soon' %}"
+        class="block text-black hover:text-red-700 transition-colors font-medium py-2 border-b border-red-700"
+        >Contact</a
+      >
+
+      <div class="container mx-auto flex justify-between sm:hidden">
         {% if request.user.is_authenticated %}
-            <a href="{% url 'logout' %}" class="bg-red-700 px-2 py-1 pb-2 rounded-full
-             text-white text-center">Logout</a>
-             <a href="{% url 'carzz:dashboard_router' %}" class="bg-red-700 px-2 py-1 pb-2 rounded-full
-                text-white text-center">Your dashboard</a>
+        <a
+          href="{% url 'logout' %}"
+          class="bg-red-700 px-2 py-1 pb-2 rounded-full text-white text-center"
+          >Logout</a
+        >
+        <a
+          href="{% url 'carzz:dashboard_router' %}"
+          class="bg-red-700 px-2 py-1 pb-2 rounded-full text-white text-center"
+          >Your dashboard</a
+        >
         {% else %}
-            <a href="{% url 'register' %}" class="bg-red-700 px-2 py-1 pb-2 rounded-full
-             text-white text-center">SignUp</a>
-        <a href="{% url 'login' %}" class="bg-red-700 px-2 py-1 pb-2 rounded-full
-             text-white text-center">Login</a>
+        <a
+          href="{% url 'register' %}"
+          class="bg-red-700 px-2 py-1 pb-2 rounded-full text-white text-center"
+          >SignUp</a
+        >
+        <a
+          href="{% url 'login' %}"
+          class="bg-red-700 px-2 py-1 pb-2 rounded-full text-white text-center"
+          >Login</a
+        >
         {% endif %}
       </div>
-        
-      </div>
     </div>
-  </nav>
-  
+  </div>
+</nav>

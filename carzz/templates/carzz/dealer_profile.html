@@ -11,7 +11,7 @@
         <div class="grid grid-cols-4 sm:grid-cols-12 gap-6 px-4">
             <div class="col-span-4 sm:col-span-3">
                 <div class="bg-white shadow rounded-lg p-6">
-                    <div class="flex flex-col items-center">
+                    <div class="flex flex-col  items-center">
                         <img src="{{ dealer_profile.pic.url }}" class="w-32 h-32 rounded-full mb-4 shrink-0">
 
                         <h1 class="text-xl font-bold text-red-700">{{ dealer_profile.name }}</h1>
@@ -39,7 +39,7 @@
                     <div class="px-5 p-4 gap-y-4 text-red-700">
 
                         <p class="pb-3">Name: {{ dealer_profile.name}}</p>
-                        <p class="pb-3">Email: {{ dealer_profile.user.email}}</p>
+                        {% comment %} <p class="pb-3">Email: {{ dealer_profile.email}}</p> {% endcomment %}
                         <p class="pb-3">Phone: {{ dealer_profile.phone_number }}</p>
                         <p class="pb-3">Address {{ dealer_profile.address }}:</p>
                         <p class="pb-3">Socials: {{ dealer_profile.social_media }}</p>
