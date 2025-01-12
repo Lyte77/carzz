@@ -69,10 +69,4 @@ function prevSlide() {
 // Initialize on DOM load
 document.addEventListener('DOMContentLoaded', initCarousel);
 
-// Initialization for ES Users
-import {
-  Carousel,
-  initTWE,
-} from "tw-elements";
 
-initTWE({ Carousel });
