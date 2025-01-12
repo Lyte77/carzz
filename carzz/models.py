@@ -37,8 +37,8 @@ class Car(models.Model):
     year = models.IntegerField(null=True)
     mileage = models.IntegerField(null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2,null=True)
-    thumbnail = models.ImageField(blank=True,null=True,upload_to='car_images/')
-#     thumbnail = CloudinaryField('car_image')
+#     thumbnail = models.ImageField(blank=True,null=True,upload_to='car_images/')
+    thumbnail = CloudinaryField('car_image')
     
     description = models.TextField(null=True)
     views = models.PositiveIntegerField(default=0)
@@ -53,8 +53,8 @@ class Car(models.Model):
 class CarImage(models.Model):
      car = models.ForeignKey(Car,on_delete=models.CASCADE,related_name='images')
      name = models.CharField(max_length=200, blank=True,null=True)
-     image = models.ImageField(upload_to='car_images/', blank=True, null=True)
-     # image = CloudinaryField('car_images')
+     # image = models.ImageField(upload_to='car_images/', blank=True, null=True)
+     image = CloudinaryField('car_images')
      view_type = models.CharField(max_length=50,choices=[
           ('front','Front View'),
           ('rear','Rear View'),

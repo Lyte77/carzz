@@ -39,9 +39,7 @@ class DealerProfileForm(forms.ModelForm):
          }
      ))
 
-    pic = forms.FileField(widget=forms.FileInput(
-         
-     ))   
+    pic = forms.FileField()   
     class Meta:
         model = DealerProfileModel
         fields = ['name', 'email' ,'phone_number','address',
@@ -84,9 +82,7 @@ class DealerEditProfileForm(forms.ModelForm):
              'class':'mt-2 p-4 w-full border-2 rounded-lg dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800'
          }
      ))
-     pic = forms.FileField(widget=forms.FileInput(
-         
-     ))
+     pic = forms.FileField()   
         
     
      class Meta:
@@ -182,7 +178,7 @@ CarImageFormSet = modelformset_factory(
     CarImage,
      fields=['id', 'image','view_type'],
     form=DealerAddImagesForm,
-    extra=1,
+    extra=3,
     can_delete=True
 
 )

@@ -308,7 +308,7 @@
         {% for car in dealer_cars %}
         <!-- CARD 1 -->
         <div
-          class="rounded overflow-hidden shadow-lg flex flex-col w-60 lg:gap-x-2"
+          class="rounded overflow-hidden shadow-lg flex flex-col w-70 lg:gap-x-2 "
         >
           <a href="#"></a>
           <div class="relative">
@@ -349,7 +349,7 @@
             <div class="text-gray-500 text-sm">
               <p>{{ car.make }}</p>
               <p>{{ car.model }}</p>
-              <p>{{ car.price }}</p>
+              <p>${{ car.price }}</p>
             </div>
           </div>
           <div

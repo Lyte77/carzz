@@ -52,14 +52,25 @@
 
     {% if request.user.is_authenticated %}
       {% if request.user.is_dealer %} 
-          
-              <div class="bg-white shadow rounded-full w-8 h-8">
-                <img
-                  src="{{ dealer_profile.pic.url }}"
-                  alt="profile-pic"
-                  class="w-8 h-8 rounded-full mb-4 shrink-0"
-                />
-              </div>
+      {% if dealer_profile and dealer_profile.pic %}
+     
+        <div class="bg-white shadow rounded-full w-8 h-8">
+          <img
+            src="{{ dealer_profile.pic.url }}"
+            alt="profile-pic"
+            class="w-8 h-8 rounded-full mb-4 shrink-0"
+          />
+        </div>
+      {% else %}
+        <div class="bg-white shadow rounded-full w-8 h-8">
+          <img
+            src=""
+            alt="default-profile-pic"
+            class="w-8 h-8 rounded-full mb-4 shrink-0"
+          />
+        </div>
+      {% endif %}
+  
           
      {% else %}
           <div class="bg-white shadow rounded-full w-8 h-8">

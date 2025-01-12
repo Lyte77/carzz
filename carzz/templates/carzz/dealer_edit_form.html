@@ -27,9 +27,9 @@
              style="background-image: url('')"
           >
           </div>
-            {% if  not request.dealer_profile.pic.url %}
+            {% if  request.dealer_profile.pic.url %}
               <div class="mx-auto flex justify-center w-[141px] h-[141px] bg-blue-300/20 rounded-full bg-cover bg-center bg-no-repeat">
-                <img src="{{ user_profile.profile_picture.url }}"  id="avatar" class="rounded-full bg-cover w-40" alt="">
+                <img src="{{ dealer_profile.pic.url }}"  id="avatar" class="rounded-full bg-cover w-40" alt="">
               </div>
             {% else %}
               <div class="mx-auto flex justify-center w-[141px] h-[141px] bg-blue-300/20 rounded-full bg-cover bg-center bg-no-repeat">

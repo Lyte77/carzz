@@ -9,6 +9,8 @@ from .forms import (DealerAddCarForm,
 from .models import Car, CarImage, SavedCar
 from django.db.models import Q, Sum
 from django.contrib import messages
+from allauth.account.models import EmailAddress
+from allauth.account.utils import send_email_confirmation
 from django.http import HttpResponseForbidden, HttpResponse
 
 from .models import DealerProfileModel
@@ -144,6 +146,20 @@ def dealer_profile(request,dealer_id):
              }
    return render(request,'carzz/dealer_profile.html',context)
 
+# def dealer_profile(request,dealer_id):
+#    dealer_profile = None
+#    if request.user.is_authenticated and request.user.is_dealer:
+#         try:
+#             dealer_profile = request.user.dealer_profile
+#         except DealerProfileModel.DoesNotExist:
+#             pass  # No profile yet, handle gracefully
+
+#    context = {'dealer_profile':dealer_profile,
+#              }
+#    return render(request,'carzz/dealer_profile.html',context)
+
+
+
 
 # def setup_profile(request):
 #     if request.user.is_authenticated and request.user.is_dealer:
@@ -244,13 +260,22 @@ def update_dealer_profile(request):
             form = DealerEditProfileForm(request.POST,request.FILES,instance=dealer)
             if form.is_valid():
                  form.save()
+            try:
+                email_address = EmailAddress.objects.get(user=request.user, primary=True)
+                if email_address.verified:
+                    messages.success(request, 'Profile Updated')
+                    return redirect('carzz:dealer_dashboard', dealer_id=request.user.id)
+                else:
+                    return redirect('carzz:profile-verify-email')
+            except EmailAddress.DoesNotExist:
+                    messages.error(request, 'Primary email not found. Please verify your email.')
+                    return redirect('carzz:profile-verify-email')
             
-                 messages.success(request, 'Profile Updated')
-                 return redirect('carzz:dealer_dashboard', dealer_id=request.user.id)
     
                  
         
         return render(request,'carzz/dealer_edit_form.html',{'form':form})
+     return HttpResponse()
 
 
 def add_car(request):
@@ -382,3 +407,6 @@ def save_car(request,car_id):
      return redirect('carzz:user_dashboard', user_id=request.user.id)
 
 
+def profile_verify_email(request):
+     send_email_confirmation(request, request.user)
+     return redirect('carzz:dealer_dashboard', dealer_id=request.user.id)

@@ -17,6 +17,7 @@ urlpatterns = [
     # path('update-profile/user/', views.update_user_profile,name='update_user_profile'),
     path('dealer_profile/<int:dealer_id>/', views.dealer_profile,name='dealer_profile'),
     path('dealer/update/',views.update_dealer_profile,name='update_dealer_profile'),
+    path('profile/verify-email/',views.profile_verify_email, name="profile-verify-email"),
 
     path('car/<int:id>/',views.car_detail_page, name='car_detail'),
     path('add_car/',views.add_car,name='add_car'),
