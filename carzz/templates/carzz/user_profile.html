@@ -12,15 +12,15 @@
             <div class="col-span-4 sm:col-span-3">
                 <div class="bg-white shadow rounded-lg p-6">
                     <div class="flex flex-col  items-center">
-                        {% if dealer_profile.pic.url  %}
-                            <img src="{{ dealer_profile.pic.url }}" class="w-32 h-32 rounded-full mb-4 shrink-0">
+                        {% if user_profile.profile_picture.url  %}
+                            <img src="{{ user_profile.profile_picture.url }}" class="w-32 h-32 rounded-full mb-4 shrink-0">
                         {% else %}
                             <img src="" class="w-32 h-32 rounded-full mb-4 shrink-0">
                         {% endif %}
 
 
-                        <h1 class="text-xl font-bold text-red-700">{{ dealer_profile.name }}</h1>
-                        <p class="text-gray-700">Dealer</p>
+                        <h1 class="text-xl font-bold text-red-700">{{ user_profile.name }}</h1>
+                        <p class="text-gray-700">Regular User</p>
                         <div class="mt-6 flex flex-wrap gap-4 justify-center">
                             
                         </div>
@@ -43,11 +43,11 @@
                     <h2 class="text-xl font-bold mb-4 text-center">About Me</h2>
                     <div class="px-5 p-4 gap-y-4 text-red-700">
 
-                        <p class="pb-3">Name: {{ dealer_profile.name}}</p>
+                        <p class="pb-3">Name: {{ user_profile.name}}</p>
                         {% comment %} <p class="pb-3">Email: {{ dealer_profile.email}}</p> {% endcomment %}
-                        <p class="pb-3">Phone: {{ dealer_profile.phone_number }}</p>
-                        <p class="pb-3">Address {{ dealer_profile.address }}:</p>
-                        <p class="pb-3">Socials: {{ dealer_profile.social_media }}</p>
+                        <p class="pb-3">Phone: {{ user_profile.phone_number }}</p>
+                        <p class="pb-3">Address {{ user_profile.address }}:</p>
+                        <p class="pb-3">Socials: {{ user_profile.social_media }}</p>
                     </div>
 
 

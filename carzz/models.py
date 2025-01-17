@@ -20,7 +20,8 @@ class DealerProfileModel(models.Model):
         website = models.URLField(blank=True)
         social_media = models.CharField(max_length=400)
         years_in_business = models.IntegerField(blank=True,null=True)
-        pic = models.ImageField(upload_to='profile-img', blank=True,null=True)
+     #    pic = models.ImageField(upload_to='profile-img', blank=True,null=True)
+        pic = CloudinaryField('profile-img')
         date_joined = models.DateTimeField(auto_now_add=True,null=True)
 
         def __str__(self):
@@ -73,7 +74,8 @@ class UserProfileModel(models.Model):
      user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_profile')
      name = models.CharField(max_length=200)
      email = models.EmailField()
-     profile_picture = models.ImageField(upload_to='profile-img/%Y/%m/%d/',blank=True, null=True)
+     # profile_picture = models.ImageField(upload_to='profile-img/%Y/%m/%d/',blank=True, null=True)
+     profile_picture = CloudinaryField(upload_to='profile-img/%Y/%m/%d/',blank=True, null=True)
      phone_number = models.CharField(max_length=15, blank=True,null=True)
      address = models.TextField(blank=True,null=True)
 
@@ -86,10 +88,10 @@ class UserProfileModel(models.Model):
           return f"{self.user.first_name} 's Profile"
      
 
-@receiver(post_save,sender=CustomUser)
-def create_user_profile(sender,instance,created,**kwargs):
-     if created and not instance.is_dealer:
-          UserProfileModel.objects.create(user=instance)
+# @receiver(post_save,sender=CustomUser)
+# def create_user_profile(sender,instance,created,**kwargs):
+#      if created and not instance.is_dealer:
+#           UserProfileModel.objects.create(user=instance)
 
 
 class SavedCar(models.Model):

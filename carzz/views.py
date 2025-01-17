@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import DealerProfileForm,DealerEditProfileForm
+from .forms import (DealerProfileForm,
+                    DealerEditProfileForm,
+                    UserProfileForm,
+                    UserEditProfileForm)
 from django.core.exceptions import ValidationError
 from account.models import CustomUser
-from .forms import (DealerAddCarForm,
-                     UserProfileForm,
-                     UserProfileModel,
+from .forms import (DealerAddCarForm,                  
                      CarImageFormSet)
 from .models import Car, CarImage, SavedCar
 from django.db.models import Q, Sum
@@ -13,7 +14,7 @@ from allauth.account.models import EmailAddress
 from allauth.account.utils import send_email_confirmation
 from django.http import HttpResponseForbidden, HttpResponse
 
-from .models import DealerProfileModel
+from .models import DealerProfileModel, UserProfileModel
 # Create your views here.
 
 def home_page(request):
@@ -96,38 +97,20 @@ def dealer_dashboard(request, dealer_id):
                       'no_of_cars':no_of_cars,
                       }
             return render(request, 'carzz/dashboard.html',context)
+    return HttpResponse()
     
 
-def user_dashboard(request, user_id):
-        if not request.user.is_authenticated:
-                return redirect('login')
+def user_dashboard(request,user_id):
+    user_profile = get_object_or_404(UserProfileModel, user_id=user_id)
+    car =  Car.objects.all()
+    saved_car =  SavedCar.objects.filter(user=request.user).select_related('car')
+ 
+    context = {'user_profile':user_profile,
+               'saved_car':saved_car,
+               'saved_cars':[saved_car.car for saved_car in saved_car]}
+    
+    return render(request, 'carzz/user_dashboard.html', context)
 
-        if request.user.id != user_id:
-                return HttpResponseForbidden("You can't access this dashboard")
-        user = request.user
-        try:
-                    user_profile =  get_object_or_404(UserProfileModel,user_id=user_id)
-
-                    saved_car = SavedCar.objects.filter(user=request.user).select_related('car')
-
-                    user_profiles = UserProfileModel.objects.filter(user_id=user_id)
-                    if user_profiles.exists():
-                        user_profile = user_profiles.first()
-                    else:
-                        return HttpResponse("User profile not found.", status=404)
-                                
-                    context = {'user':user,
-                            'user_profile':user_profile,
-                            'saved_car':saved_car,
-                            'saved_cars': [saved_car.car for saved_car in saved_car]}
-                    return render(request,'carzz/user_dashboard.html',context)
-        
-        except Exception as e:
-        # Return an error response if something unexpected happens
-            duplicates = UserProfileModel.objects.filter(user_id=user_id)
-            print(duplicates.count())
-            return HttpResponse(f"An error occurred: {str(e)}", status=500)
-                
 
 
         
@@ -141,47 +124,24 @@ def user_dashboard(request, user_id):
 
 def dealer_profile(request,dealer_id):
    dealer_profile = get_object_or_404(DealerProfileModel,user_id=dealer_id)
-  
+
    context = {'dealer_profile':dealer_profile,
              }
    return render(request,'carzz/dealer_profile.html',context)
 
-# def dealer_profile(request,dealer_id):
-#    dealer_profile = None
-#    if request.user.is_authenticated and request.user.is_dealer:
-#         try:
-#             dealer_profile = request.user.dealer_profile
-#         except DealerProfileModel.DoesNotExist:
-#             pass  # No profile yet, handle gracefully
-
-#    context = {'dealer_profile':dealer_profile,
-#              }
-#    return render(request,'carzz/dealer_profile.html',context)
+def user_profile(request,user_id):
+   user_profile = get_object_or_404(UserProfileModel,user_id=user_id)
+  
+   context = {'user_profile':user_profile,
+             }
+   return render(request,'carzz/user_profile.html',context)
 
 
 
 
-# def setup_profile(request):
-#     if request.user.is_authenticated and request.user.is_dealer:
-#             try:
-#                 if request.method == 'POST':
-#                     profile_form = DealerProfileForm(request.POST, files=request.FILES)
-#                     if profile_form.is_valid():
-#                         profile = profile_form.save(commit=False)  # Avoid unnecessary database write-through
-#                         profile.user = request.user
-#                         profile.save()
-#                         print("updated")
-#                         messages.success(request, 'Profile Updated')
-#                         return redirect('carzz:dealer_dashboard', request.user.id)
-#                 else:
-#                     profile_form = DealerProfileForm()
-#             except Exception as e:
-#                  return HttpResponse(f"An error occurred: {str(e)}", status=500)
-#             return render(request, 'carzz/profile_form.html',{'profile_form':profile_form})
-#     else:
-        
-#         return redirect('login')  
-    
+
+
+
 
 def create_profile(request):
     
@@ -197,6 +157,22 @@ def create_profile(request):
              form = DealerProfileForm()
         return render(request, 'carzz/profile_form.html', {'form':form})
 
+
+def create_user_profile(request):
+    if request.method =='POST':
+        form = UserProfileForm(request.POST,request.FILES)
+        if form.is_valid():
+             profile = form.save(commit=False)
+             profile.user = request.user
+             profile.save()
+             messages.success(request, 'Profile Created')
+             return redirect('carzz:home')
+    else:
+        form = UserProfileForm()
+    return render(request,'carzz/user_profile_form.html',{'profile_form':form})
+
+
+
           
                   
     
@@ -205,51 +181,9 @@ def create_profile(request):
         
         
 
-def setup_user_profile(request):
-    if request.user.is_authenticated and not request.user.is_dealer:
-        user_profile = UserProfileModel.objects.filter(user=request.user).first()
-        if request.method == 'POST':
-            profile_form = UserProfileForm(request.POST,files=request.FILES, instance=user_profile)
-            if profile_form.is_valid():
-                profile = profile_form.save(commit=False)
-                profile.user = request.user
-                profile.save()
-                messages.success(request, 'Profile Updated')
-
-
-                return redirect('carzz:user_dashboard', request.user.id)
-
-        else:
-            profile_form = UserProfileForm(instance=user_profile)
-        return render(request, 'carzz/user_profile_form.html',{'profile_form':profile_form})
-    else:
-        return redirect('login')
-            
 
 
 
-# def update_profile(request):
-#      current_profile = DealerProfileModel.objects.get(user=request.user)
-#      form = DealerEditProfileForm(instance=current_profile, data=request.POST, files=request.FILES)
-#     #  return render(request, 'carzz/profile_form.html', {'profile_form':form})
-#      if request.user.is_authenticated:
-        
-#             if request.method == 'POST':
-#                 current_profile = DealerProfileModel.objects.get(user=request.user)
-
-#                 form = DealerEditProfileForm(data=request.POST,files=request.FILES,
-#                                         instance=current_profile)
-#                 if form.is_valid():
-#                     form.save()
-#                     messages.success(request, 'Profile Updated')
-                    
-#                     return redirect('carzz:dealer_dashboard', dealer_id=request.user.id)
-#             else:
-#                 current_profile = DealerProfileModel.objects.get(user=request.user)
-#                 form = DealerEditProfileForm(instance=current_profile, files=request.FILES)
-#             return render(request, 'carzz/dealer_edit_form.html',{'profile_form':form})
-        
-    
 
 def update_dealer_profile(request):
      if request.user.is_authenticated and request.user.is_dealer:
@@ -276,6 +210,28 @@ def update_dealer_profile(request):
         
         return render(request,'carzz/dealer_edit_form.html',{'form':form})
      return HttpResponse()
+
+def update_user_profile(request):
+ if request.user.is_authenticated and not request.user.is_dealer:
+     user = UserProfileModel.objects.get(user=request.user)
+     form = DealerEditProfileForm(instance=user)
+     if request.method == 'POST':
+            form = UserEditProfileForm(request.POST,request.FILES,instance=user)
+            if form.is_valid():
+                 form.save()
+            try:
+                email_address = EmailAddress.objects.get(user=request.user, primary=True)
+                if email_address.verified:
+                    messages.success(request, 'Profile Updated')
+                    return redirect('carzz:user_dashboard', user_id=request.user.id)
+                else:
+                    return redirect('carzz:profile-verify-email')
+            except EmailAddress.DoesNotExist:
+                    messages.error(request, 'Primary email not found. Please verify your email.')
+                    return redirect('carzz:profile-verify-email')
+            
+     return render(request,'carzz/user_edit_form.html',{'profile_form':form})
+ return HttpResponse()
 
 
 def add_car(request):
@@ -392,6 +348,7 @@ def edit_car(request, id):
 
 
 def delete_car(request, id):
+
     car = get_object_or_404(Car,id=id)
     car.delete()
     messages.success(request,"Car deleted Sucessfully")
@@ -401,11 +358,20 @@ def save_car(request,car_id):
      car = get_object_or_404(Car, id=car_id)
      saved_car, created = SavedCar.objects.get_or_create(user=request.user,car=car)
 
-     if not created:
-          saved_car.delete()
-          messages.success(request,'Car Saved')
+     if created:
+          messages.success(request,f'{car.model} has been saved to your dashboard')
+     else:
+         messages.info(request, f'{car.model} is already saved')
+          
      return redirect('carzz:user_dashboard', user_id=request.user.id)
 
+def delete_saved_car(request,car_id):
+    car = get_object_or_404(Car, id=car_id)
+    # saved_car = SavedCar.objects.filter(user=request.user,car=car).select_related('car')
+    saved_car = get_object_or_404(SavedCar, user=request.user, car_id=car_id)
+    saved_car.delete()
+    messages.success(request,'Car removed')
+    return redirect('carzz:user_dashboard',request.user.id)
 
 def profile_verify_email(request):
      send_email_confirmation(request, request.user)

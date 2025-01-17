@@ -50,10 +50,10 @@
                   <li class="relative px-6 py-3">
                     <a
                       class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                      href="{% url 'carzz:user_profile' %}"
+                      href="{% url 'carzz:create_user_profile' %}"
 
 
-                    >
+                    > 
                       <svg
                         class="w-5 h-5"
                         aria-hidden="true"
@@ -68,7 +68,31 @@
                           d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
                         ></path>
                       </svg>
-                      <span class="ml-4">Update Profile</span>
+                      <span class="ml-4">Create Profile</span>
+                    </a>
+                  </li>
+                  <li class="relative px-6 py-3">
+                    <a
+                      class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                      href="{% url 'carzz:user_profile' user_profile.user_id %}"
+
+
+                    > 
+                      <svg
+                        class="w-5 h-5"
+                        aria-hidden="true"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                        ></path>
+                      </svg>
+                      <span class="ml-4">Check Profile</span>
                     </a>
                   </li>
                   
@@ -89,8 +113,28 @@
                     <div class="py-5 lg:hidden xl:hidden">
                       <a
                         class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                        href="{% url 'carzz:user_profile' %}"
-                      >
+                        href="{% url 'carzz:create_user_profile' %}"
+                      > 
+                        <svg
+                          class="w-5 h-5"
+                          aria-hidden="true"
+                          fill="none"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                          ></path>
+                        </svg>
+                        <span class="ml-4">Create Profile</span>
+                      </a>
+                      <a
+                        class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                        href="{% url 'carzz:update_user_profile' %}"
+                      > 
                         <svg
                           class="w-5 h-5"
                           aria-hidden="true"
@@ -191,7 +235,7 @@
                   {% for car in saved_cars %}
                   <!-- CARD 1 -->
                   <div
-                    class="rounded overflow-hidden shadow-lg flex flex-col w-60 lg:gap-x-2"
+                    class="rounded-br-badge rounded-t-md overflow-hidden shadow-lg flex flex-col w-60 lg:gap-x-2"
                   >
                     <a href="#"></a>
                     <div class="relative">
@@ -227,8 +271,15 @@
                         <p>{{ car.price }}</p>
                       </div>
                     </div>
-                   
+                    <a href="{% url 'carzz:delete_saved_car' car.id%}">
+                   <button type="submit">Delete car</button>
+                  </a>
                   </div>
+                  {% empty %}
+                  <div class=" container mx-auto">
+                    <p class="text-2xl  text-center ">No saved cars yet </p>
+                  </div>
+
                   {% endfor %}
                 </div>
               </div>

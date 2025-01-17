@@ -83,19 +83,19 @@
                <a href="{% url 'carzz:dealer_profile' car.dealer_id %}" class="bg-red-700 flex gap-2 items-center text-white px-6 py-2 rounded-md  focus:outline-none  focus:ring-offset-2">Check Dealer</a>
              <form method="post" action="{% url 'carzz:save_car' car.id %}">
                 {% csrf_token %}
-                {% if car in saved_cars %}
-                    <button type="submit"
-                        class="bg-red-700 flex gap-2 items-center text-white px-6 py-2 rounded-md  focus:outline-none  focus:ring-offset-2">
-                        Unsave
-                    </button>
-                {% else %}
-                    <button type="submit"
-                        class="bg-red-700 flex gap-2 items-center text-white px-6 py-2 rounded-md  focus:outline-none  focus:ring-offset-2">
-                        Save
-                    </button>
-                {% endif %}
+                <button type="submit"
+                    class="bg-red-700 flex gap-2 items-center text-white px-6 py-2 rounded-md  focus:outline-none  focus:ring-offset-2">
+                    Save
+                </button>
+                
+              </form>
+                   
+               
 
-            </form>
+
+                    
+              
+
                           
             
           </div>
