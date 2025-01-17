@@ -75,7 +75,7 @@ class UserProfileModel(models.Model):
      name = models.CharField(max_length=200)
      email = models.EmailField()
      # profile_picture = models.ImageField(upload_to='profile-img/%Y/%m/%d/',blank=True, null=True)
-     profile_picture = CloudinaryField(upload_to='profile-img/%Y/%m/%d/',blank=True, null=True)
+     profile_picture = CloudinaryField('profile-img')
      phone_number = models.CharField(max_length=15, blank=True,null=True)
      address = models.TextField(blank=True,null=True)
 
