@@ -50,7 +50,7 @@
                   <li class="relative px-6 py-3">
                     <a
                       class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                      href="{% url 'carzz:create_user_profile' %}"
+                      href="{% url 'carzz:update_user_profile' %}"
 
 
                     > 
@@ -106,14 +106,14 @@
                   <h2
                     class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200 text-center"
                   >
-                    {{ user.first_name}} Dashboard
+                    {{ user_profile.name}} Dashboard
                   </h2>
           
                   <div class="flex justify-around sm:block md:block ">
                     <div class="py-5 lg:hidden xl:hidden">
                       <a
                         class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                        href="{% url 'carzz:create_user_profile' %}"
+                        href="{% url 'carzz:update_user_profile' %}"
                       > 
                         <svg
                           class="w-5 h-5"

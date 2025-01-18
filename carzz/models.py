@@ -71,7 +71,7 @@ class CarImage(models.Model):
     
 
 class UserProfileModel(models.Model):
-     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_profile')
+     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='user_profile')
      name = models.CharField(max_length=200)
      email = models.EmailField()
      # profile_picture = models.ImageField(upload_to='profile-img/%Y/%m/%d/',blank=True, null=True)

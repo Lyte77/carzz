@@ -129,6 +129,8 @@ def dealer_profile(request,dealer_id):
              }
    return render(request,'carzz/dealer_profile.html',context)
 
+
+
 def user_profile(request,user_id):
    user_profile = get_object_or_404(UserProfileModel,user_id=user_id)
   
@@ -214,7 +216,7 @@ def update_dealer_profile(request):
 def update_user_profile(request):
  if request.user.is_authenticated and not request.user.is_dealer:
      user = UserProfileModel.objects.get(user=request.user)
-     form = DealerEditProfileForm(instance=user)
+     form = UserEditProfileForm(instance=user)
      if request.method == 'POST':
             form = UserEditProfileForm(request.POST,request.FILES,instance=user)
             if form.is_valid():
@@ -225,10 +227,10 @@ def update_user_profile(request):
                     messages.success(request, 'Profile Updated')
                     return redirect('carzz:user_dashboard', user_id=request.user.id)
                 else:
-                    return redirect('carzz:profile-verify-email')
+                    return redirect('carzz:user_dashboard', user_id=request.user.id)
             except EmailAddress.DoesNotExist:
                     messages.error(request, 'Primary email not found. Please verify your email.')
-                    return redirect('carzz:profile-verify-email')
+                    return redirect('carzz:user_dashboard', user_id=request.user.id)
             
      return render(request,'carzz/user_edit_form.html',{'profile_form':form})
  return HttpResponse()

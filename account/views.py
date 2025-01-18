@@ -44,6 +44,8 @@ def register_user(request):
             user = form.save()  # Save the user instance
             if user.is_dealer:  # Create a dealer profile if the user is a dealer
                 DealerProfileModel.objects.create(user=user)
+            else:  
+                UserProfileModel.objects.create(user=user)
             
             
             # Log the user in after successful registration
