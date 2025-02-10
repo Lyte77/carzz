@@ -18,20 +18,31 @@ from .models import DealerProfileModel, UserProfileModel
 # Create your views here.
 
 def home_page(request):
-    query =  request.GET.get('query','')
-    cars = Car.objects.all()
+   
+    cars = Car.objects.all()[:6]
+    context = {'cars':cars,}
+    return render(request, 'carzz/home.html',context)
+               
 
+    
+
+def coming_soon_page(request):
+     return render(request,'carzz/coming_soon.html')
+
+
+def car_page(request):
+
+    cars = Car.objects.all()
+    query =  request.GET.get('query','')
     if query:
         cars = cars.filter(
             Q(make__icontains=query) | 
             Q(model__icontains=query) | 
             Q(year__icontains=query))
-    context = {'cars':cars,
-               'query':query,}
-    return render(request, 'carzz/home.html',context)
-
-def coming_soon_page(request):
-     return render(request,'carzz/coming_soon.html')
+        if not cars.exists():
+            messages.error(request, "Your search wasnt availble")
+    return render(request, 'carzz/car_page.html', {'cars':cars,
+                                                   'query':query,})
         
                    
        

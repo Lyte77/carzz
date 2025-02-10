@@ -4,9 +4,9 @@ from account.models import CustomUser
 from .models import DealerProfileModel
 from allauth.account.models import EmailAddress
 
-# @receiver(post_save,sender=CustomUser)
-# def create_dealer_profile(sender,instance,created,**kwargs):
-#     if created and getattr(instance,'is_dealer',False):
+# @receiver(post_save, sender=CustomUser)
+# def create_dealer_profile(sender, instance, created, **kwargs):
+#     if created and instance.is_dealer:  # Assuming `is_dealer` is a field in your CustomUser model
 #         DealerProfileModel.objects.create(user=instance)
 
 # @receiver(post_save,sender=CustomUser)

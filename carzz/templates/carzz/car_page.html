@@ -1,0 +1,114 @@
+{% extends "carzz/base.html" %}
+{% load static %}
+{% block content %}
+
+
+<div class="sticky top-14 z-50 w-72 md:w-80 lg:w-1/2  mx-auto mt-5   bg-transparent  rounded-full">
+    <form action="{% url 'carzz:car_page' %}" method="get" >
+    <input placeholder="Search for Cars by models,make,date" class="rounded-full w-full h-16 bg-transparent font-bold text-2xl text-red-700 py-2 pl-8 pr-32 outline-none border-2 border-red-700 shadow-md hover:outline-none   focus:ring-red-700 focus:border-red-700" type="text" name="query" id="query">
+    <button type="submit" class="absolute inline-flex items-center h-10 px-4 py-2 text-sm text-white transition duration-150 ease-in-out rounded-full outline-none right-3 top-3 bg-red-700 sm:px-6 sm:text-base sm:font-medium hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+      <svg class="-ml-0.5 sm:-ml-1 mr-2 w-4 h-4 sm:h-5 sm:w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+      Search
+    </button>
+    
+    </form>
+  </div>
+
+<div class="  ml-6 p-1 pt-3 ">
+    <h2 class="  md:text-2xl text-red-700">Search result for : {{ query }}</h2>
+</div>
+
+
+<div class="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16">
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10  dark:text-white">
+    {% if cars %}
+   
+        {% for car in cars %}
+    <div class="rounded-br-badge  rounded-t-2xl overflow-hidden shadow-lg flex flex-col">
+      <a href="#"></a>
+        <div class="relative ">
+          <a href="{% url 'carzz:car_detail' car.id %}">
+            {% if car.thumbnail %}
+              <img class="w-full"
+              src="{{ car.thumbnail.url }}"
+              alt="Sunset in the mountains">
+            {% else %}
+              <p>No Image yet</p>
+            {% endif %}
+                <div
+                    class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25">
+                </div>
+            </a>
+            <a href="#!">
+              {% if car.sold == True %}
+                    <div
+                    class="text-xs absolute top-0 right-0 bg-red-700 px-4 py-2 text-white mt-3 mr-3 hover:bg-white hover:text-red-700 transition duration-500 ease-in-out"
+                  >
+                    Sold
+                  </div>
+              {% else %}
+                  <div
+                  class="text-xs absolute top-0 right-0 bg-red-700 px-4 py-2 text-white mt-3 mr-3 hover:bg-white hover:text-red-700 transition duration-500 ease-in-out"
+                >
+                  Available
+                </div>
+            {% endif %}
+
+             
+            </a>
+          </div>
+
+          <span class="absolute top-0 left-0 w-28 translate-y-4 -translate-x-6 -rotate-45 bg-black text-center text-sm text-white">Sale</span>
+          <div class="mt-4 px-5 pb-5 ">
+            <a href="#">
+              <h5 class="text-xl font-semibold tracking-tight text-white dark:text-red-700 ">{{ car.model}}</h5>
+            </a>
+            <div class="mt-2.5 mb-5 flex items-center">
+              <span class="mr-2 rounded bg-red-700 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+              <svg aria-hidden="true" class="h-5 w-5 text-red-700" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <svg aria-hidden="true" class="h-5 w-5 text-red-700" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <svg aria-hidden="true" class="h-5 w-5 text-red-700" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <svg aria-hidden="true" class="h-5 w-5 text-red-700" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <svg aria-hidden="true" class="h-5 w-5 text-red-700" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+            </div>
+            <div class="flex items-center justify-between">
+              <p>
+                <span class="text-3xl font-bold text-slate-900">{{ car.price }}</span>
+                <span class="text-sm text-slate-900 line-through">$299</span>
+              </p>
+              <a href="{% url 'carzz:car_detail' car.id %}" class="flex items-center rounded-md bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-black-700 focus:outline-none ">
+               
+                Check Car</a
+              >
+            </div>
+          </div>
+      
+
+      </div>
+
+     
+      {% endfor %}
+      {% else %}
+        <h2>No car found {{ query }}</h2>
+      {% endif %}
+     
+    </div>
+ </div>
+</div>
+
+
+
+
+{% endblock %}

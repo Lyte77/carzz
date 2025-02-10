@@ -22,3 +22,27 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   });
+
+
+// Get the toggle button
+const themeToggle = document.getElementById('theme-toggle');
+
+// Check the user's preference and set the initial theme
+const userPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'dark' || (!savedTheme && userPrefersDark)) {
+  document.documentElement.classList.add('dark');
+} else {
+  document.documentElement.classList.remove('dark');
+}
+
+// Toggle dark mode and save the preference
+themeToggle.addEventListener('click', () => {
+  if (document.documentElement.classList.contains('dark')) {
+    document.documentElement.classList.remove('dark');
+    localStorage.setItem('theme', 'light');
+  } else {
+    document.documentElement.classList.add('dark');
+    localStorage.setItem('theme', 'dark');
+  }
+});

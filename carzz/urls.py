@@ -26,6 +26,7 @@ urlpatterns = [
     path('profile/verify-email/',views.profile_verify_email, name="profile-verify-email"),
 
     path('car/<int:id>/',views.car_detail_page, name='car_detail'),
+    path('all-cars/',views.car_page, name='car_page'),
     path('add_car/',views.add_car,name='add_car'),
     path('edit-car/<int:id>/',views.edit_car, name='edit-car'),
     path('delete-car/<int:id>/', views.delete_car,name='delete_car'),
