@@ -67,7 +67,7 @@ INSTALLED_APPS = [
     
 
     'carzz',
-    'carzz_api',
+    # 'carzz_api',
 
     'rest_framework',
     'rest_framework.authtoken',

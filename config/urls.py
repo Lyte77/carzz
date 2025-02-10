@@ -37,7 +37,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     # path('social-auth/', include('social_django.urls', namespace='social')),
     path('', include('carzz.urls', namespace='carzz')),
-    path('api/', include('carzz_api.urls')),
+    # path('api/', include('carzz_api.urls')),
     path('api/', include('djoser.urls')),
     path('api/', include('djoser.urls.jwt')),
     path('api-auth/', include('rest_framework.urls')), 
